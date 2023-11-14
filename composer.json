@@ -1,0 +1,17 @@
+{
+    "name": "hexlet/code",
+    "description": "project2",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "affonja"
+        }
+    ],
+    "minimum-stability": "stable",
+    "bin": [
+        "bin/gendiff"
+    ],
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
