@@ -11,7 +11,11 @@
     "bin": [
         "bin/gendiff"
     ],
+    "autoload": {
+        "files": ["src/genDiff.php"]
+    },
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "lstrojny/functional-php": "^1.17"
     }
 }

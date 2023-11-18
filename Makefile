@@ -5,4 +5,4 @@ validate:
 	composer validate
 
 gendiff:
-	./bin/gendiff -h
+	./bin/gendiff
