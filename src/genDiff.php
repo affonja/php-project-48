@@ -5,14 +5,14 @@ namespace Differ;
 use function Functional\flatten;
 
 define("ROOT_DIR", $_SERVER["PWD"]);
-define("DIR_SOURCE", ROOT_DIR . '/tests/');
+define("FIXTURES_DIR", ROOT_DIR . '/tests/fixtures/');
 
 function genDiff(string $path1, string $path2): string
 {
     $is_absolute_path = getTypePath($path1);
-    $path1 = getNormalizePath($path1, $is_absolute_path);
+    $path1 = getFullPath($path1, $is_absolute_path);
     $is_absolute_path = getTypePath($path2);
-    $path2 = getNormalizePath($path2, $is_absolute_path);
+    $path2 = getFullPath($path2, $is_absolute_path);
 
     if (!file_exists($path1) && (!file_exists($path2))) {
         throw new \Exception('File not exist');
@@ -48,7 +48,7 @@ function genDiff(string $path1, string $path2): string
     return implode(PHP_EOL, $diff);
 }
 
-function getNormalizePath(string $path, bool $type): string
+function getFullPath(string $path, bool $type): string
 {
     if ($type) {
         if (stripos(pathinfo($path)['dirname'], realpath(ROOT_DIR)) === false) {
@@ -58,7 +58,7 @@ function getNormalizePath(string $path, bool $type): string
         }
     } else {
         if (pathinfo($path)['dirname'] === '.') {
-            $path = DIR_SOURCE . $path;
+            $path = FIXTURES_DIR . $path;
         } else {
             $path = ROOT_DIR . '/' . $path;
         }
