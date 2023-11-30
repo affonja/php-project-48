@@ -40,8 +40,8 @@ function genDiff(string $path1, string $path2): string
                 }
             }
             return $result ?? [];
-        }
-        , $keys
+        },
+        $keys
     );
     $diff = flatten($diff);
 
