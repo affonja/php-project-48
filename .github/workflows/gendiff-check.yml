@@ -27,8 +27,8 @@ jobs:
       - name: Run test & publish code coverage
         uses: paambaati/codeclimate-action@v5
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          SECRET2: ${{ secrets.SECRET2 }}
         with:
           coverageCommand: make test
-#          coverageLocations: build/logs/clover.xml:clover
-#          debug: true
+          coverageLocations: build/logs/clover.xml:clover
+          debug: true
