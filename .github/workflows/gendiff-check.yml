@@ -24,11 +24,10 @@ jobs:
       - name: Run linter
         run: make lint
 
-      - name: Run test & publish code coverage
-        uses: paambaati/codeclimate-action@v5
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v5.0.0
         env:
-          SECRET2: ${{ secrets.SECRET2 }}
+          CC_TEST_REPORTER_ID: <code_climate_reporter_id>
         with:
-          coverageCommand: make test
-          coverageLocations: build/logs/clover.xml:clover
+          coverageCommand: npm run coverage
           debug: true
