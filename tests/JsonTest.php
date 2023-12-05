@@ -50,13 +50,13 @@ class JsonTest extends TestCase
         $this->assertEquals($expected, parseFile('fixture/file1.yaml'));
     }
 
-//    public function testUnValidExt(): void
-//    {
-//        $this->expectException(\Exception::class);
-//        $this->expectExceptionMessage('Unknown extension file');
-//
-//        $path = 'tests/fixtures/file1000';
-//
-//        parseFile($path);
-//    }
+    public function testUnValidExt(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unknown extension file');
+
+        $path = 'tests/fixtures/file1000';
+
+        parseFile($path);
+    }
 }

@@ -7,6 +7,12 @@ validate:
 gendiff:
 	./bin/gendiff
 
+yaml:
+	./bin/gendiff file1.yaml file2.yml
+
+json:
+	./bin/gendiff file1.json file2.json
+
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src bin tests
 

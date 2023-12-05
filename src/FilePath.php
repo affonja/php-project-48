@@ -34,7 +34,7 @@ function getTypePath(string $path): bool
     return $a || ($b && $c && $d);
 }
 
-function getExtension(string $file): ?string
+function getExtension(string $file): string
 {
-    return pathinfo($file)['extension'];
+    return pathinfo($file)['extension'] ?? '';
 }
