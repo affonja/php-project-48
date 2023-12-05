@@ -1,14 +1,11 @@
 <?php
 
-/**
- * @covers \Differ\genDiff;
- */
-
 namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 
 use function Differ\genDiff;
+use function Differ\parseFile;
 
 class JsonTest extends TestCase
 {
@@ -38,5 +35,28 @@ class JsonTest extends TestCase
         $path2 = 'tests/fixtures/file2.json';
 
         genDiff($path1, $path2);
+    }
+
+    public function testValidExt(): void
+    {
+        $expected = [
+            "host" => "hexlet.io",
+            "timeout" => 50,
+            "proxy" => '123.234.53.22',
+            "follow" => false
+        ];
+
+        $this->assertEquals($expected, parseFile('fixture/file1.json'));
+        $this->assertEquals($expected, parseFile('fixture/file1.yaml'));
+    }
+
+    public function testUnValidExt(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unknown extension file');
+
+        $path = 'tests/fixtures/file1000';
+
+        parseFile($path);
     }
 }

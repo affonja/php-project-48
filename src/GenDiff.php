@@ -12,8 +12,8 @@ function genDiff(string $path1, string $path2): string
     if (!file_exists($path1) || (!file_exists($path2))) {
         throw new \Exception('File not exist');
     }
-    $file1 = (array)json_decode(file_get_contents($path1));
-    $file2 = (array)json_decode(file_get_contents($path2));
+    $file1 = parseFile($path1);
+    $file2 = parseFile($path2);
 
     $keys = array_merge(array_keys($file1), array_keys($file2));
     sort($keys);
