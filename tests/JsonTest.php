@@ -1,24 +1,42 @@
 <?php
 
-namespace Differ\Tests\JsonTest;
+/**
+ * @covers \Differ\genDiff;
+ */
+
+namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Differ\GenDiff\genDiff;
+use function Differ\genDiff;
 
 class JsonTest extends TestCase
 {
-    public function testGenDiff(): void
+    public function testGenDiffValidFile(): void
     {
-        $file1 = 'file1.json';
-        $file2 = 'file2.json';
-        $str = "- follow: false
-  host: hexlet.io
-- proxy: 123.234.53.22
-- timeout: 50
-+ timeout: 20
-+ verbose: true";
+        $path1 = 'tests/fixtures/file1.json';
+        $path2 = 'tests/fixtures/file2.json';
 
-        $this->assertEquals($str, genDiff($file1, $file2));
+        $expected = "- follow: false" . PHP_EOL .
+            "  host: hexlet.io" . PHP_EOL .
+            "- proxy: 123.234.53.22" . PHP_EOL .
+            "- timeout: 50" . PHP_EOL .
+            "+ timeout: 20" . PHP_EOL .
+            "+ verbose: true";
+
+        $result = genDiff($path1, $path2);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testGenDiffUnValidFile(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File not exist');
+
+        $path1 = 'tests/fixtures/file1000.json';
+        $path2 = 'tests/fixtures/file2.json';
+
+        genDiff($path1, $path2);
     }
 }

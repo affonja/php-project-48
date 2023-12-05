@@ -1,20 +1,15 @@
 <?php
 
-namespace Differ\GenDiff;
+namespace Differ;
 
 use function Functional\flatten;
 
-define("ROOT_DIR", $_SERVER["PWD"]);
-define("FIXTURES_DIR", ROOT_DIR . '/tests/fixtures/');
-
 function genDiff(string $path1, string $path2): string
 {
-    $is_absolute_path = getTypePath($path1);
-    $path1 = getFullPath($path1, $is_absolute_path);
-    $is_absolute_path = getTypePath($path2);
-    $path2 = getFullPath($path2, $is_absolute_path);
+    $path1 = getFullPath($path1);
+    $path2 = getFullPath($path2);
 
-    if (!file_exists($path1) && (!file_exists($path2))) {
+    if (!file_exists($path1) || (!file_exists($path2))) {
         throw new \Exception('File not exist');
     }
     $file1 = (array)json_decode(file_get_contents($path1));
@@ -48,34 +43,6 @@ function genDiff(string $path1, string $path2): string
     return implode(PHP_EOL, $diff);
 }
 
-function getFullPath(string $path, bool $type): string
-{
-    if ($type) {
-        if (stripos(pathinfo($path)['dirname'], realpath(ROOT_DIR)) === false) {
-            if ($path[0] === '/' || $path[0] === '\\') {
-                $path = ROOT_DIR . $path;
-            }
-        }
-    } else {
-        if (pathinfo($path)['dirname'] === '.') {
-            $path = FIXTURES_DIR . $path;
-        } else {
-            $path = ROOT_DIR . '/' . $path;
-        }
-    }
-
-    return realpath($path) ?? '';
-}
-
-function getTypePath(string $path): bool
-{
-    $a = strspn($path, '/\\', 0, 1);
-    $b = strlen($path) > 3 && ctype_alpha($path[0]);
-    $c = substr($path, 1, 1) === ':';
-    $d = strspn($path, '/\\', 2, 1);
-
-    return $a || ($b && $c && $d);
-}
 
 function boolToString($val): string|int
 {

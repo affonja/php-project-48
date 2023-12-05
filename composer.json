@@ -12,8 +12,13 @@
     "bin/gendiff"
   ],
   "autoload": {
+    "psr-4": {
+      "Differ\\": "src/",
+      "Differ\\Tests\\": "tests/"
+    },
     "files": [
       "src/GenDiff.php",
+      "src/FilePath.php",
       "tests/JsonTest.php"
     ]
   },
