@@ -2,9 +2,11 @@
 
 namespace Differ;
 
+use Exception;
+
 use function Functional\flatten;
 
-function genDiff(string $path1, string $path2): string
+function genDiff(string $path1, string $path2, $stylish = 'Differ\formatter'): string
 {
     $path1 = getFullPath($path1);
     $path2 = getFullPath($path2);
@@ -15,36 +17,66 @@ function genDiff(string $path1, string $path2): string
     $file1 = parseFile($path1);
     $file2 = parseFile($path2);
 
-    $keys = array_merge(array_keys($file1), array_keys($file2));
+    $diff = iter($file1, $file2);
+    return "{" . PHP_EOL . "{$stylish($diff)}}";
+}
+
+function iter(array $arr1, array $arr2)
+{
+    $keys = array_merge(array_keys($arr1), array_keys($arr2));
     sort($keys);
     $keys = array_unique($keys);
 
+    return array_reduce(
+        $keys,
+        function ($acc, $key) use ($arr1, $arr2) {
+            if (array_key_exists($key, $arr1) && !array_key_exists($key, $arr2)) {
+                $acc = getAcc($arr1[$key], $arr1[$key], $key, '-', $acc);
+            }
+            if (!array_key_exists($key, $arr1) && array_key_exists($key, $arr2)) {
+                $acc = getAcc($arr2[$key], $arr2[$key], $key, '+', $acc);
+            }
 
-    $diff = array_map(
-        function ($key) use ($file2, $file1) {
-            if (array_key_exists($key, $file1) && !array_key_exists($key, $file2)) {
-                $result[] = "- $key: " . boolToString($file1[$key]);
-            } elseif (!array_key_exists($key, $file1) && array_key_exists($key, $file2)) {
-                $result[] = "+ $key: " . boolToString($file2[$key]);
-            } elseif (array_key_exists($key, $file1) && array_key_exists($key, $file2)) {
-                if ($file1[$key] === $file2[$key]) {
-                    $result[] = "  $key: " . boolToString($file1[$key]);
+            if (array_key_exists($key, $arr1) && array_key_exists($key, $arr2)) {
+                if (is_array($arr1[$key]) && is_array($arr2[$key])) {
+                    $acc = getAcc($arr1[$key], $arr2[$key], $key, ' ', $acc);
                 } else {
-                    $result[] = "- $key: " . boolToString($file1[$key]);
-                    $result[] = "+ $key: " . boolToString($file2[$key]);
+                    if ($arr1[$key] === $arr2[$key]) {
+                        $acc = getAcc($arr1[$key], $arr1[$key], $key, ' ', $acc);
+                    } else {
+                        $acc = getAcc($arr1[$key], $arr1[$key], $key, '-', $acc);
+                        $acc = getAcc($arr2[$key], $arr2[$key], $key, '+', $acc);
+                    }
                 }
             }
-            return $result ?? [];
-        },
-        $keys
-    );
-    $diff = flatten($diff);
 
-    return implode(PHP_EOL, $diff);
+            return $acc;
+        },
+        []
+    );
 }
 
-
-function boolToString($val): string|int
+function getAcc(mixed $value1, mixed $value2, string $key, string $z, array $acc): array
 {
-    return is_bool($val) ? ($val === true ? 'true' : 'false') : $val;
+    if (is_array($value1)) {
+        $acc[] = [
+            'z' => $z,
+            'key' => $key,
+            'val' => '{'
+        ];
+        $acc[] = ['val' => iter($value1, $value2)];
+    } else {
+        $acc[] = [
+            'z' => $z,
+            'key' => $key,
+            'val' => toString($value1)
+        ];
+    }
+
+    return $acc;
+}
+
+function toString(mixed $val): string
+{
+    return trim(var_export($val, true), "'");
 }
