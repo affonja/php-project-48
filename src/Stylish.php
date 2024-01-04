@@ -11,9 +11,9 @@ function formatter(array $diff, int $depth = 0, string $lf = PHP_EOL): string
             if (is_array($arr['val'])) {
                 $depth++;
                 $str .= formatter($arr['val'], $depth);
-                $str .= "$offset    } $lf";
+                $str .= "$offset    }$lf";
             } else {
-                $str .= "$offset  {$arr['z']} {$arr['key']}: {$arr['val']} $lf";
+                $str .= "$offset  {$arr['z']} {$arr['key']}: {$arr['val']}$lf";
             }
             return $str;
         },
