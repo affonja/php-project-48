@@ -9,3 +9,6 @@ compare json
 
 compare yaml
 [![asciicast](https://asciinema.org/a/W9o5WYkzfhsPPDMOPFPNVReft.svg)](https://asciinema.org/a/W9o5WYkzfhsPPDMOPFPNVReft)
+
+nested_file
+[![asciicast](https://asciinema.org/a/d6hdQjOZYCIIOWMPJycCkH646.svg)](https://asciinema.org/a/d6hdQjOZYCIIOWMPJycCkH646)
