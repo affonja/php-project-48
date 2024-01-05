@@ -2,7 +2,7 @@
 
 namespace Differ;
 
-function formatter(array $diff, int $depth = 0, string $lf = PHP_EOL): string
+function formatter(array $diff, int $depth = 0, string $lf = "\n"): string
 {
     return array_reduce(
         $diff,

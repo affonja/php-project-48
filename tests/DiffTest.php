@@ -4,67 +4,16 @@ namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Differ;
+use Exception;
 
 use function Differ\genDiff;
 use function Differ\getFullPath;
 use function Differ\parseFile;
 
-const FIXTURES_DIR = '/fixtures/';
+const FIXTURES_DIR = __DIR__ . '/fixtures/';
 
 class DiffTest extends TestCase
 {
-    public function testGenDiffValidFile(): void
-    {
-        $path1 = 'tests/fixtures/plain1.json';
-        $path2 = 'tests/fixtures/plain2.json';
-
-        $expected = "{" . PHP_EOL .
-            "  - follow: false" . PHP_EOL .
-            "    host: hexlet.io" . PHP_EOL .
-            "  - proxy: 123.234.53.22" . PHP_EOL .
-            "  - timeout: 50" . PHP_EOL .
-            "  + timeout: 20" . PHP_EOL .
-            "  + verbose: true" . PHP_EOL . "}";
-
-        $result = genDiff($path1, $path2);
-
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testGenDiffUnValidFile(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('File not exist');
-
-        $path1 = 'tests/fixtures/file1000.json';
-        $path2 = 'tests/fixtures/file2.json';
-
-        genDiff($path1, $path2);
-    }
-
-    public function testValidExt(): void
-    {
-        $expected = [
-            "host" => "hexlet.io",
-            "timeout" => 50,
-            "proxy" => '123.234.53.22',
-            "follow" => false
-        ];
-
-        $this->assertEquals($expected, parseFile('tests/fixtures/plain1.json'));
-        $this->assertEquals($expected, parseFile('tests/fixtures/plain1.yaml'));
-    }
-
-    public function testUnValidExt(): void
-    {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Unknown extension file');
-
-        $path = 'tests/fixtures/file1000';
-
-        parseFile($path);
-    }
-
     /*********filepath**********/
     public function testGetFullPath()
     {
@@ -87,9 +36,13 @@ class DiffTest extends TestCase
 
     public function testGetExtension()
     {
-        // Тест для файла с расширением
+        // Тест для файла с расширением json
         $fileWithExtension = Differ\getExtension('plain1.json');
         $this->assertEquals('json', $fileWithExtension);
+
+        // Тест для файла с расширением json
+        $fileWithExtension = Differ\getExtension('plain1.yaml');
+        $this->assertEquals('yaml', $fileWithExtension);
 
         // Тест для файла без расширения
         $fileWithoutExtension = Differ\getExtension('plain1');
@@ -100,32 +53,26 @@ class DiffTest extends TestCase
 
     public function testParseJsonFile()
     {
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $expectedJSON = explode("\n\n\n", $fileContents)[0];
+        $expected = json_decode($expectedJSON, true);
         $jsonPath = FIXTURES_DIR . 'plain1.json';
-        $expectedArray = [
-            "host" => "hexlet.io",
-            "timeout" => 50,
-            "proxy" => "123.234.53.22",
-            "follow" => false
-        ];
 
         $parsedData = Differ\parseFile($jsonPath);
 
-        $this->assertEquals($expectedArray, $parsedData);
+        $this->assertEquals($expected, $parsedData);
     }
 
     public function testParseYamlFile()
     {
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $expectedJSON = explode("\n\n\n", $fileContents)[0];
+        $expected = json_decode($expectedJSON, true);
         $yamlPath = FIXTURES_DIR . 'plain1.yaml';
-        $expectedArray = [
-            "host" => "hexlet.io",
-            "timeout" => 50,
-            "proxy" => "123.234.53.22",
-            "follow" => false
-        ];
 
         $parsedData = Differ\parseFile($yamlPath);
 
-        $this->assertEquals($expectedArray, $parsedData);
+        $this->assertEquals($expected, $parsedData);
     }
 
     public function testUnknownExtensionFile()
@@ -138,33 +85,59 @@ class DiffTest extends TestCase
     }
 
     /*********stylish**********/
-    public function testFormatterWithScalarValues()
+    public function testFormatterPlain()
     {
-        $fileContents = file_get_contents('tests/fixtures/diffs');
-        $nestedArr = explode("\n\n\n", trim($fileContents));
-        $diff = json_decode($nestedArr[0], true);
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $expected = trim($arr[1]);
 
-        $fileContents = file_get_contents('tests/fixtures/expected');
-        $nestedArr = explode("\n\n\n", trim($fileContents));
-        $expectedResult = trim($nestedArr[0]);
-
+        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $diff = json_decode($arr[0], true);
         $formattedResult = trim(Differ\formatter($diff));
 
-        $this->assertEquals($expectedResult, $formattedResult);
+
+        $this->assertEquals($expected, $formattedResult);
     }
 
-    public function testFormatterWithNestedArray()
+    public function testFormatterNested()
     {
-        $fileContents = file_get_contents('tests/fixtures/diffs');
-        $nestedArr = explode("\n\n\n", trim($fileContents));
-        $diff = json_decode($nestedArr[1], true);
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $expected = trim($arr[2]);
 
-        $fileContents = file_get_contents('tests/fixtures/expected');
-        $nestedArr = explode("\n\n\n", trim($fileContents));
-        $expectedResult = trim($nestedArr[1]);
-
+        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $diff = json_decode($arr[1], true);
         $formattedResult = trim(Differ\formatter($diff));
 
-        $this->assertEquals($expectedResult, $formattedResult);
+
+        $this->assertEquals($expected, $formattedResult);
+    }
+
+    /*********diff**********/
+    public function testGenDiffValidFile(): void
+    {
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $expected = trim($arr[3]);
+
+        $path1 = FIXTURES_DIR . 'plain1.json';
+        $path2 = FIXTURES_DIR . 'plain2.json';
+
+        $result = genDiff($path1, $path2);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testGenDiffUnValidFile(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('File not exist');
+
+        $path1 = 'tests/fixtures/file1000.json';
+        $path2 = 'tests/fixtures/file2.json';
+
+        genDiff($path1, $path2);
     }
 }

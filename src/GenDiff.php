@@ -19,7 +19,7 @@ function genDiff(string $path1, string $path2, $stylish = 'Differ\formatter'): s
 
     $diff = iter($file1, $file2);
 
-    return "{" . PHP_EOL . "{$stylish($diff)}}";
+    return "{" . "\n" . "{$stylish($diff)}}";
 }
 
 function iter(array $arr1, array $arr2)
