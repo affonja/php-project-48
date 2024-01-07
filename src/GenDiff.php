@@ -31,24 +31,20 @@ function iter(array $arr1, array $arr2)
     return array_reduce(
         $keys,
         function ($acc, $key) use ($arr1, $arr2) {
-            if (array_key_exists($key, $arr1) && !array_key_exists($key, $arr2)) {
-                $acc = getAcc($arr1[$key], $arr1[$key], $key, '-', $acc);
-            }
-            if (!array_key_exists($key, $arr1) && array_key_exists($key, $arr2)) {
-                $acc = getAcc($arr2[$key], $arr2[$key], $key, '+', $acc);
-            }
+            $value1 = $arr1[$key] ?? null;
+            $value2 = $arr2[$key] ?? null;
 
-            if (array_key_exists($key, $arr1) && array_key_exists($key, $arr2)) {
-                if (is_array($arr1[$key]) && is_array($arr2[$key])) {
-                    $acc = getAcc($arr1[$key], $arr2[$key], $key, ' ', $acc);
-                } else {
-                    if ($arr1[$key] === $arr2[$key]) {
-                        $acc = getAcc($arr1[$key], $arr1[$key], $key, ' ', $acc);
-                    } else {
-                        $acc = getAcc($arr1[$key], $arr1[$key], $key, '-', $acc);
-                        $acc = getAcc($arr2[$key], $arr2[$key], $key, '+', $acc);
-                    }
-                }
+            if (is_array($value1) && is_array($value2)) {
+                $acc = getAcc($value1, $value2, $key, ' ', $acc);
+            } elseif (!array_key_exists($key, $arr1) || $value1 === $value2) {
+                $z = ($value1 === $value2) ? ' ' : '+';
+                $acc = getAcc($value2, $value2, $key, $z, $acc);
+            } elseif (!array_key_exists($key, $arr2) || $value1 === $value2) {
+                $z = ($value1 === $value2) ? ' ' : '-';
+                $acc = getAcc($value1, $value1, $key, $z, $acc);
+            } elseif ($value1 !== $value2) {
+                $acc = getAcc($value1, $value1, $key, '-', $acc);
+                $acc = getAcc($value2, $value2, $key, '+', $acc);
             }
 
             return $acc;

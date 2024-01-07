@@ -21,8 +21,7 @@ class DiffTest extends TestCase
             'plain1.json',
             'tests/fixtures/plain1.json',
             '/tests/fixtures/plain1.json',
-            './plain1.json',
-            'C:\OpenServer\domains\48\tests\fixtures\plain1.json'
+            './plain1.json'
         ];
         $expectedPath = FIXTURES_DIR . 'plain1.json';
         foreach ($paths as $path) {

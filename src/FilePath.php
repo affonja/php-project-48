@@ -9,15 +9,22 @@ function getFullPath(string $path): string
     $is_absolute_path = getTypePath($path);
     $dirname = pathinfo($path)['dirname'];
 
+    if (!$is_absolute_path) {
+        $path = ($dirname === '.') ? FIXTURES_DIR . $path : ROOT_DIR . '/' . $path;
+    }
+    if (stripos($dirname, realpath(ROOT_DIR)) === false && ($path[0] === '/' || $path[0] === '\\')) {
+        $path = ROOT_DIR . $path;
+    }
+
+    return realpath($path);
+    /*
     if ($is_absolute_path) {
         if (stripos($dirname, realpath(ROOT_DIR)) === false && ($path[0] === '/' || $path[0] === '\\')) {
             $path = ROOT_DIR . $path;
         }
     } else {
         $path = ($dirname === '.') ? FIXTURES_DIR . $path : ROOT_DIR . '/' . $path;
-    }
-
-    return realpath($path);
+    }*/
 }
 
 function getTypePath(string $path): bool
