@@ -17,10 +17,17 @@ class DiffTest extends TestCase
     /*********filepath**********/
     public function testGetFullPath()
     {
-        // Тест для относительного пути
-        $relativePath = getFullPath('plain1.json');
-        $expectedPath = __DIR__ . '/fixtures/plain1.json';
-        $this->assertEquals(realpath($expectedPath), $relativePath);
+        $paths = [
+            'plain1.json',
+            'tests/fixtures/plain1.json',
+            '/tests/fixtures/plain1.json',
+            './plain1.json',
+            'C:\OpenServer\domains\48\tests\fixtures\plain1.json'
+        ];
+        $expectedPath = FIXTURES_DIR . 'plain1.json';
+        foreach ($paths as $path) {
+            $this->assertEquals(realpath($expectedPath), getFullPath($path));
+        }
     }
 
     public function testGetTypePath()

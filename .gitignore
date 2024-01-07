@@ -4,3 +4,4 @@
 /.phpunit.cache/
 *.cache
 *.bak
+/src/optim.php
