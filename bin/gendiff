@@ -30,7 +30,8 @@ $args = Docopt::handle($doc, ['version' => 'Naval Fate 2.0']);
 
 $pathToFile1 = $args['<firstFile>'];
 $pathToFile2 = $args['<secondFile>'];
+$format = $args['--format'];
 
-$diff = genDiff($pathToFile1, $pathToFile2);
+$diff = genDiff($pathToFile1, $pathToFile2, $format);
 print_r($diff);
 print_r(PHP_EOL);

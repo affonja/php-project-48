@@ -13,6 +13,9 @@ p_yaml:
 p_json:
 	./bin/gendiff plain1.json plain2.json
 
+p_json_pl:
+	./bin/gendiff --format plain plain1.json plain2.json
+
 n_yaml:
 	./bin/gendiff nest1.yaml nest2.yml
 

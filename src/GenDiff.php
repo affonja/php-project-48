@@ -5,8 +5,10 @@ namespace Differ;
 use Exception;
 
 use function Functional\flatten;
+use function Differ\stylish;
+use function Differ\plain;
 
-function genDiff(string $path1, string $path2, $stylish = 'Differ\formatter'): string
+function genDiff(string $path1, string $path2, $formatName): string
 {
     $path1 = getFullPath($path1);
     $path2 = getFullPath($path2);
@@ -18,8 +20,8 @@ function genDiff(string $path1, string $path2, $stylish = 'Differ\formatter'): s
     $file2 = parseFile($path2);
 
     $diff = iter($file1, $file2);
-
-    return "{" . "\n" . "{$stylish($diff)}}";
+    $formatFunc = 'Differ\\' . $formatName;
+    return "{\n{$formatFunc($diff)}";
 }
 
 function iter(array $arr1, array $arr2)

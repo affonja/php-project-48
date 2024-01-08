@@ -100,7 +100,7 @@ class DiffTest extends TestCase
         $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
         $arr = explode("\n\n\n", trim($fileContents));
         $diff = json_decode($arr[0], true);
-        $formattedResult = trim(Differ\formatter($diff));
+        $formattedResult = trim(Differ\stylish($diff));
 
 
         $this->assertEquals($expected, $formattedResult);
@@ -115,7 +115,7 @@ class DiffTest extends TestCase
         $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
         $arr = explode("\n\n\n", trim($fileContents));
         $diff = json_decode($arr[1], true);
-        $formattedResult = trim(Differ\formatter($diff));
+        $formattedResult = trim(Differ\stylish($diff));
 
 
         $this->assertEquals($expected, $formattedResult);
@@ -145,5 +145,19 @@ class DiffTest extends TestCase
         $path2 = 'tests/fixtures/file2.json';
 
         genDiff($path1, $path2);
+    }
+
+    public function testPlain(): void
+    {
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $expected = trim($arr[4]);
+
+        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $diff = json_decode($arr[1], true);
+        $formattedResult = trim(Differ\stylish($diff));
+
+        $this->assertEquals($expected, $formattedResult);
     }
 }

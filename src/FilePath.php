@@ -19,14 +19,6 @@ function getFullPath(string $path): string
     }
 
     return realpath($path);
-    /*
-    if ($is_absolute_path) {
-        if (stripos($dirname, realpath(ROOT_DIR)) === false && ($path[0] === '/' || $path[0] === '\\')) {
-            $path = ROOT_DIR . $path;
-        }
-    } else {
-        $path = ($dirname === '.') ? FIXTURES_DIR . $path : ROOT_DIR . '/' . $path;
-    }*/
 }
 
 function getTypePath(string $path): bool
