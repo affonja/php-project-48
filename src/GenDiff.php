@@ -21,7 +21,7 @@ function genDiff(string $path1, string $path2, $formatName): string
 
     $diff = iter($file1, $file2);
     $formatFunc = 'Differ\\' . $formatName;
-    return "{\n{$formatFunc($diff)}";
+    return "{$formatFunc($diff)}";
 }
 
 function iter(array $arr1, array $arr2)
@@ -39,14 +39,14 @@ function iter(array $arr1, array $arr2)
             if (is_array($value1) && is_array($value2)) {
                 $acc = getAcc($value1, $value2, $key, ' ', $acc);
             } elseif (!array_key_exists($key, $arr1) || $value1 === $value2) {
-                $z = ($value1 === $value2) ? ' ' : '+';
+                $z = ($value1 === $value2) ? 'u=' : 'a';
                 $acc = getAcc($value2, $value2, $key, $z, $acc);
             } elseif (!array_key_exists($key, $arr2) || $value1 === $value2) {
-                $z = ($value1 === $value2) ? ' ' : '-';
+                $z = ($value1 === $value2) ? 'u=' : 'r';
                 $acc = getAcc($value1, $value1, $key, $z, $acc);
             } elseif ($value1 !== $value2) {
-                $acc = getAcc($value1, $value1, $key, '-', $acc);
-                $acc = getAcc($value2, $value2, $key, '+', $acc);
+                $acc = getAcc($value1, $value1, $key, 'u-', $acc);
+                $acc = getAcc($value2, $value2, $key, 'u+', $acc);
             }
 
             return $acc;
@@ -61,14 +61,15 @@ function getAcc(mixed $value1, mixed $value2, string $key, string $z, array $acc
         $acc[] = [
             'z' => $z,
             'key' => $key,
-            'val' => '{'
+            'val' => iter($value1, $value2)
         ];
-        $acc[] = ['val' => iter($value1, $value2)];
+//        $acc[] = ['val' => iter($value1, $value2)];
     } else {
         $acc[] = [
             'z' => $z,
             'key' => $key,
-            'val' => toString($value1)
+//            'val' => toString($value1)
+            'val' => $value1
         ];
     }
 
