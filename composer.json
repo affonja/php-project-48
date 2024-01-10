@@ -26,6 +26,7 @@
       "src/Parcer.php",
       "src/Formatters/Stylish.php",
       "src/Formatters/Plain.php",
+      "src/Formatters/Formatters.php",
       "tests/DiffTest.php"
     ]
   },

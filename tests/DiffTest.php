@@ -56,7 +56,6 @@ class DiffTest extends TestCase
     }
 
     /*********parcer**********/
-
     public function testParseJsonFile()
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
@@ -121,6 +120,21 @@ class DiffTest extends TestCase
         $this->assertEquals($expected, $formattedResult);
     }
 
+    /*********stylish**********/
+    public function testPlain(): void
+    {
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $expected = trim($arr[4]);
+
+        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $diff = json_decode($arr[1], true);
+        $formattedResult = trim(Differ\plain($diff));
+
+        $this->assertEquals($expected, $formattedResult);
+    }
+
     /*********diff**********/
     public function testGenDiffValidFile(): void
     {
@@ -145,19 +159,5 @@ class DiffTest extends TestCase
         $path2 = 'tests/fixtures/file2.json';
 
         genDiff($path1, $path2);
-    }
-
-    public function testPlain(): void
-    {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $expected = trim($arr[4]);
-
-        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $diff = json_decode($arr[1], true);
-        $formattedResult = trim(Differ\stylish($diff));
-
-        $this->assertEquals($expected, $formattedResult);
     }
 }

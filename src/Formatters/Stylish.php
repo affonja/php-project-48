@@ -2,17 +2,20 @@
 
 namespace Differ;
 
+use function Functional\indexes_of;
+
 function stylish(array $diff, int $depth = 0, string $lf = "\n"): string
 {
     return array_reduce(
         $diff,
         function ($str, $arr) use ($lf, $depth) {
             $translate = [
-                'a' => "+",
-                'r' => '-',
-                'u=' => ' ',
-                'u-' => '-',
-                'u+' => '+',
+                'add' => "+",
+                'rmv' => '-',
+                'upd=' => ' ',
+                'upd-' => '-',
+                'upd+' => '+',
+                ' ' => ' '
             ];
             $offset = str_repeat('    ', $depth);
             if (is_array($arr['val'])) {

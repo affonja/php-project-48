@@ -1,236 +1,202 @@
 [
-    {
-        "z": "-",
-        "key": "follow",
-        "val": "false"
-    },
-    {
-        "z": " ",
-        "key": "host",
-        "val": "hexlet.io"
-    },
-    {
-        "z": "-",
-        "key": "proxy",
-        "val": "123.234.53.22"
-    },
-    {
-        "z": "-",
-        "key": "timeout",
-        "val": "50"
-    },
-    {
-        "z": "+",
-        "key": "timeout",
-        "val": "20"
-    },
-    {
-        "z": "+",
-        "key": "verbose",
-        "val": "true"
-    }
+  {
+    "z": "rmv",
+    "key": "follow",
+    "val": false
+  },
+  {
+    "z": "upd=",
+    "key": "host",
+    "val": "hexlet.io"
+  },
+  {
+    "z": "rmv",
+    "key": "proxy",
+    "val": "123.234.53.22"
+  },
+  {
+    "z": "upd-",
+    "key": "timeout",
+    "val": 50
+  },
+  {
+    "z": "upd+",
+    "key": "timeout",
+    "val": 20
+  },
+  {
+    "z": "add",
+    "key": "verbose",
+    "val": true
+  }
 ]
 
 
 [
-    {
+  {
+    "z": " ",
+    "key": "common",
+    "val": [
+      {
+        "z": "add",
+        "key": "follow",
+        "val": false
+      },
+      {
+        "z": "upd=",
+        "key": "setting1",
+        "val": "Value 1"
+      },
+      {
+        "z": "rmv",
+        "key": "setting2",
+        "val": 200
+      },
+      {
+        "z": "upd-",
+        "key": "setting3",
+        "val": true
+      },
+      {
+        "z": "upd+",
+        "key": "setting3",
+        "val": null
+      },
+      {
+        "z": "add",
+        "key": "setting4",
+        "val": "blah blah"
+      },
+      {
+        "z": "add",
+        "key": "setting5",
+        "val": [
+          {
+            "z": "upd=",
+            "key": "key5",
+            "val": "value5"
+          }
+        ]
+      },
+      {
         "z": " ",
-        "key": "common",
-        "val": "{"
-    },
-    {
+        "key": "setting6",
         "val": [
-            {
-                "z": "+",
-                "key": "follow",
-                "val": "false"
-            },
-            {
-                "z": " ",
-                "key": "setting1",
-                "val": "Value 1"
-            },
-            {
-                "z": "-",
-                "key": "setting2",
-                "val": "200"
-            },
-            {
-                "z": "-",
-                "key": "setting3",
-                "val": "true"
-            },
-            {
-                "z": "+",
-                "key": "setting3",
-                "val": "NULL"
-            },
-            {
-                "z": "+",
-                "key": "setting4",
-                "val": "blah blah"
-            },
-            {
-                "z": "+",
-                "key": "setting5",
-                "val": "{"
-            },
-            {
-                "val": [
-                    {
-                        "z": " ",
-                        "key": "key5",
-                        "val": "value5"
-                    }
-                ]
-            },
-            {
-                "z": " ",
-                "key": "setting6",
-                "val": "{"
-            },
-            {
-                "val": [
-                    {
-                        "z": " ",
-                        "key": "doge",
-                        "val": "{"
-                    },
-                    {
-                        "val": [
-                            {
-                                "z": "-",
-                                "key": "wow",
-                                "val": ""
-                            },
-                            {
-                                "z": "+",
-                                "key": "wow",
-                                "val": "so much"
-                            }
-                        ]
-                    },
-                    {
-                        "z": " ",
-                        "key": "key",
-                        "val": "value"
-                    },
-                    {
-                        "z": "+",
-                        "key": "ops",
-                        "val": "vops"
-                    }
-                ]
-            }
+          {
+            "z": " ",
+            "key": "doge",
+            "val": [
+              {
+                "z": "upd-",
+                "key": "wow",
+                "val": ""
+              },
+              {
+                "z": "upd+",
+                "key": "wow",
+                "val": "so much"
+              }
+            ]
+          },
+          {
+            "z": "upd=",
+            "key": "key",
+            "val": "value"
+          },
+          {
+            "z": "add",
+            "key": "ops",
+            "val": "vops"
+          }
         ]
-    },
-    {
+      }
+    ]
+  },
+  {
+    "z": " ",
+    "key": "group1",
+    "val": [
+      {
+        "z": "upd-",
+        "key": "baz",
+        "val": "bas"
+      },
+      {
+        "z": "upd+",
+        "key": "baz",
+        "val": "bars"
+      },
+      {
+        "z": "upd=",
+        "key": "foo",
+        "val": "bar"
+      },
+      {
+        "z": "upd-",
+        "key": "nest",
+        "val": [
+          {
+            "z": "upd=",
+            "key": "key",
+            "val": "value"
+          }
+        ]
+      },
+      {
+        "z": "upd+",
+        "key": "nest",
+        "val": "str"
+      }
+    ]
+  },
+  {
+    "z": "rmv",
+    "key": "group2",
+    "val": [
+      {
+        "z": "upd=",
+        "key": "abc",
+        "val": 12345
+      },
+      {
         "z": " ",
-        "key": "group1",
-        "val": "{"
-    },
-    {
+        "key": "deep",
         "val": [
-            {
-                "z": "-",
-                "key": "baz",
-                "val": "bas"
-            },
-            {
-                "z": "+",
-                "key": "baz",
-                "val": "bars"
-            },
-            {
-                "z": " ",
-                "key": "foo",
-                "val": "bar"
-            },
-            {
-                "z": "-",
-                "key": "nest",
-                "val": "{"
-            },
-            {
-                "val": [
-                    {
-                        "z": " ",
-                        "key": "key",
-                        "val": "value"
-                    }
-                ]
-            },
-            {
-                "z": "+",
-                "key": "nest",
-                "val": "str"
-            }
+          {
+            "z": "upd=",
+            "key": "id",
+            "val": 45
+          }
         ]
-    },
-    {
-        "z": "-",
-        "key": "group2",
-        "val": "{"
-    },
-    {
+      }
+    ]
+  },
+  {
+    "z": "add",
+    "key": "group3",
+    "val": [
+      {
+        "z": " ",
+        "key": "deep",
         "val": [
-            {
-                "z": " ",
-                "key": "abc",
-                "val": "12345"
-            },
-            {
-                "z": " ",
-                "key": "deep",
-                "val": "{"
-            },
-            {
-                "val": [
-                    {
-                        "z": " ",
-                        "key": "id",
-                        "val": "45"
-                    }
-                ]
-            }
+          {
+            "z": " ",
+            "key": "id",
+            "val": [
+              {
+                "z": "upd=",
+                "key": "number",
+                "val": 45
+              }
+            ]
+          }
         ]
-    },
-    {
-        "z": "+",
-        "key": "group3",
-        "val": "{"
-    },
-    {
-        "val": [
-            {
-                "z": " ",
-                "key": "deep",
-                "val": "{"
-            },
-            {
-                "val": [
-                    {
-                        "z": " ",
-                        "key": "id",
-                        "val": "{"
-                    },
-                    {
-                        "val": [
-                            {
-                                "z": " ",
-                                "key": "number",
-                                "val": "45"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "z": " ",
-                "key": "fee",
-                "val": "100500"
-            }
-        ]
-    }
+      },
+      {
+        "z": "upd=",
+        "key": "fee",
+        "val": 100500
+      }
+    ]
+  }
 ]
-
