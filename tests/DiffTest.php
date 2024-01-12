@@ -135,6 +135,21 @@ class DiffTest extends TestCase
         $this->assertEquals($expected, $formattedResult);
     }
 
+    /*********json**********/
+    public function testJSON(): void
+    {
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $expected = trim($arr[6]);
+
+        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $diff = json_decode($arr[1], true);
+        $formattedResult = trim(Differ\json($diff));
+
+        $this->assertEquals($expected, $formattedResult);
+    }
+
     /*********diff**********/
     public function testGenDiffValidFile(): void
     {
