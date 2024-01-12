@@ -1,201 +1,201 @@
 [
   {
-    "z": "rmv",
+    "act": "rmv",
     "key": "follow",
-    "val": false
+    "value": false
   },
   {
-    "z": "upd=",
+    "act": "upd=",
     "key": "host",
-    "val": "hexlet.io"
+    "value": "hexlet.io"
   },
   {
-    "z": "rmv",
+    "act": "rmv",
     "key": "proxy",
-    "val": "123.234.53.22"
+    "value": "123.234.53.22"
   },
   {
-    "z": "upd-",
+    "act": "upd-",
     "key": "timeout",
-    "val": 50
+    "value": 50
   },
   {
-    "z": "upd+",
+    "act": "upd+",
     "key": "timeout",
-    "val": 20
+    "value": 20
   },
   {
-    "z": "add",
+    "act": "add",
     "key": "verbose",
-    "val": true
+    "value": true
   }
 ]
 
 
 [
   {
-    "z": " ",
+    "act": " ",
     "key": "common",
-    "val": [
+    "value": [
       {
-        "z": "add",
+        "act": "add",
         "key": "follow",
-        "val": false
+        "value": false
       },
       {
-        "z": "upd=",
+        "act": "upd=",
         "key": "setting1",
-        "val": "Value 1"
+        "value": "Value 1"
       },
       {
-        "z": "rmv",
+        "act": "rmv",
         "key": "setting2",
-        "val": 200
+        "value": 200
       },
       {
-        "z": "upd-",
+        "act": "upd-",
         "key": "setting3",
-        "val": true
+        "value": true
       },
       {
-        "z": "upd+",
+        "act": "upd+",
         "key": "setting3",
-        "val": null
+        "value": null
       },
       {
-        "z": "add",
+        "act": "add",
         "key": "setting4",
-        "val": "blah blah"
+        "value": "blah blah"
       },
       {
-        "z": "add",
+        "act": "add",
         "key": "setting5",
-        "val": [
+        "value": [
           {
-            "z": "upd=",
+            "act": "upd=",
             "key": "key5",
-            "val": "value5"
+            "value": "value5"
           }
         ]
       },
       {
-        "z": " ",
+        "act": " ",
         "key": "setting6",
-        "val": [
+        "value": [
           {
-            "z": " ",
+            "act": " ",
             "key": "doge",
-            "val": [
+            "value": [
               {
-                "z": "upd-",
+                "act": "upd-",
                 "key": "wow",
-                "val": ""
+                "value": ""
               },
               {
-                "z": "upd+",
+                "act": "upd+",
                 "key": "wow",
-                "val": "so much"
+                "value": "so much"
               }
             ]
           },
           {
-            "z": "upd=",
+            "act": "upd=",
             "key": "key",
-            "val": "value"
+            "value": "value"
           },
           {
-            "z": "add",
+            "act": "add",
             "key": "ops",
-            "val": "vops"
+            "value": "vops"
           }
         ]
       }
     ]
   },
   {
-    "z": " ",
+    "act": " ",
     "key": "group1",
-    "val": [
+    "value": [
       {
-        "z": "upd-",
+        "act": "upd-",
         "key": "baz",
-        "val": "bas"
+        "value": "bas"
       },
       {
-        "z": "upd+",
+        "act": "upd+",
         "key": "baz",
-        "val": "bars"
+        "value": "bars"
       },
       {
-        "z": "upd=",
+        "act": "upd=",
         "key": "foo",
-        "val": "bar"
+        "value": "bar"
       },
       {
-        "z": "upd-",
+        "act": "upd-",
         "key": "nest",
-        "val": [
+        "value": [
           {
-            "z": "upd=",
+            "act": "upd=",
             "key": "key",
-            "val": "value"
+            "value": "value"
           }
         ]
       },
       {
-        "z": "upd+",
+        "act": "upd+",
         "key": "nest",
-        "val": "str"
+        "value": "str"
       }
     ]
   },
   {
-    "z": "rmv",
+    "act": "rmv",
     "key": "group2",
-    "val": [
+    "value": [
       {
-        "z": "upd=",
+        "act": "upd=",
         "key": "abc",
-        "val": 12345
+        "value": 12345
       },
       {
-        "z": " ",
+        "act": " ",
         "key": "deep",
-        "val": [
+        "value": [
           {
-            "z": "upd=",
+            "act": "upd=",
             "key": "id",
-            "val": 45
+            "value": 45
           }
         ]
       }
     ]
   },
   {
-    "z": "add",
+    "act": "add",
     "key": "group3",
-    "val": [
+    "value": [
       {
-        "z": " ",
+        "act": " ",
         "key": "deep",
-        "val": [
+        "value": [
           {
-            "z": " ",
+            "act": " ",
             "key": "id",
-            "val": [
+            "value": [
               {
-                "z": "upd=",
+                "act": "upd=",
                 "key": "number",
-                "val": 45
+                "value": 45
               }
             ]
           }
         ]
       },
       {
-        "z": "upd=",
+        "act": "upd=",
         "key": "fee",
-        "val": 100500
+        "value": 100500
       }
     ]
   }

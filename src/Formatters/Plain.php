@@ -2,13 +2,13 @@
 
 namespace Differ;
 
-function plain(array $diff, $depth = '', string $lf = "\n"): string
+function plain(array $diff, string $depth = '', string $lf = "\n"): string
 {
     return array_reduce(
         $diff,
         function ($str, $arr) use ($lf, $depth) {
             if (is_array($arr['value']) && $arr['act'] === ' ') {
-                $depth = ($depth === '') ? $arr['key'] : $depth . '.' . $arr['key'];
+                $depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
                 $str .= plain($arr['value'], $depth);
             } else {
                 $str .= getStr($arr['act'], $arr['key'], $arr['value'], $depth, $lf);
@@ -19,7 +19,7 @@ function plain(array $diff, $depth = '', string $lf = "\n"): string
     );
 }
 
-function getStr($act, $key, $val, $depth, $lf)
+function getStr($act, $key, $val, $depth, $lf): string
 {
     $key = ($depth === '') ? $key : "$depth.$key";
     $val = is_array($val) ? '[complex value]' : $val;

@@ -82,7 +82,7 @@ class DiffTest extends TestCase
 
     public function testUnknownExtensionFile()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $unknownPath = FIXTURES_DIR . 'example.txt';
 
@@ -90,7 +90,7 @@ class DiffTest extends TestCase
     }
 
     /*********stylish**********/
-    public function testFormatterPlain()
+    public function testStylishPlain()
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
         $arr = explode("\n\n\n", trim($fileContents));
@@ -105,7 +105,7 @@ class DiffTest extends TestCase
         $this->assertEquals($expected, $formattedResult);
     }
 
-    public function testFormatterNested()
+    public function testStylishNested()
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
         $arr = explode("\n\n\n", trim($fileContents));
@@ -120,7 +120,7 @@ class DiffTest extends TestCase
         $this->assertEquals($expected, $formattedResult);
     }
 
-    /*********stylish**********/
+    /*********plain**********/
     public function testPlain(): void
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
@@ -167,7 +167,7 @@ class DiffTest extends TestCase
 
     public function testGenDiffUnValidFile(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('File not exist');
 
         $path1 = 'tests/fixtures/file1000.json';

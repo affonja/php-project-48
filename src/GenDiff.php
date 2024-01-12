@@ -10,7 +10,7 @@ function genDiff(string $path1, string $path2, $formatName = 'stylish'): string
     $path2 = getFullPath($path2);
 
     if (!file_exists($path1) || (!file_exists($path2))) {
-        throw new \Exception('File not exist');
+        throw new Exception('File not exist');
     }
     $file1 = parseFile($path1);
     $file2 = parseFile($path2);
@@ -19,7 +19,7 @@ function genDiff(string $path1, string $path2, $formatName = 'stylish'): string
     return getFormatter($formatName, $diff);
 }
 
-function iter(array $arr1, array $arr2)
+function iter(array $arr1, array $arr2): array
 {
     $keys = array_merge(array_keys($arr1), array_keys($arr2));
     sort($keys);

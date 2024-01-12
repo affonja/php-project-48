@@ -4,10 +4,10 @@ namespace Differ;
 
 use Exception;
 
-function getFormatter(string $formatName, $diff)
+function getFormatter(string $formatName, array $diff): string
 {
     if (!function_exists('Differ\\' . $formatName)) {
-        throw new \Exception('Formatter not exist');
+        throw new Exception('Formatter not exist');
     }
     $formatFunc = "Differ\\$formatName";
     if ($formatName === 'stylish') {
@@ -19,4 +19,5 @@ function getFormatter(string $formatName, $diff)
     if ($formatName === 'json') {
         return "[{$formatFunc($diff)}]";
     }
+    return '';
 }

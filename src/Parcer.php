@@ -2,6 +2,7 @@
 
 namespace Differ;
 
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 function parseFile(string $path): array
@@ -13,5 +14,5 @@ function parseFile(string $path): array
     if ($type === 'yml' || $type === 'yaml') {
         return Yaml::parseFile($path);
     }
-    throw new \Exception('Unknown extension file');
+    throw new Exception('Unknown extension file');
 }

@@ -2,8 +2,6 @@
 
 namespace Differ;
 
-use function Functional\indexes_of;
-
 function stylish(array $diff, int $depth = 0, string $lf = "\n"): string
 {
     return array_reduce(
@@ -24,7 +22,7 @@ function stylish(array $diff, int $depth = 0, string $lf = "\n"): string
                 $str .= stylish($arr['value'], $depth);
                 $str .= "$offset    }$lf";
             } else {
-                $arr['val'] = trim(var_export($arr['value'], true), "'");
+                $arr['value'] = trim(var_export($arr['value'], true), "'");
                 $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {$arr['value']}$lf";
             }
             return $str;
