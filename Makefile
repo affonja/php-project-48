@@ -25,6 +25,12 @@ n_json:
 n_json_pl:
 	./bin/gendiff --format plain nest1.json nest2.json
 
+p_json_json:
+	./bin/gendiff --format json plain1.json plain2.json
+
+n_json_json:
+	./bin/gendiff --format json nest1.json nest2.json
+
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src bin tests
 

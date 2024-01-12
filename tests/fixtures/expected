@@ -80,3 +80,245 @@ Property 'group1.baz' was updated. From 'bas' to 'bars'
 Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]
+
+
+
+[
+  {
+    "sign": "-",
+    "key": " follow",
+    "val": " false"
+  },
+  {
+    "sign": "' '",
+    "key": "host",
+    "val": "hexlet.io"
+  },
+  {
+    "sign": "-",
+    "key": "proxy",
+    "val": "123.234.53.22"
+  },
+  {
+    "sign": "-",
+    "key": "timeout",
+    "val": "50"
+  },
+  {
+    "sign": "+",
+    "key": "timeout",
+    "val": "20"
+  },
+  {
+    "sign": "+",
+    "key": "verbose",
+    "val": "true"
+  }
+]
+
+
+
+[
+    {
+        "z": " ",
+        "key": "common",
+        "val": [
+            {
+                "z": "add",
+                "key": "follow",
+                "val": false
+            },
+            {
+                "z": "upd=",
+                "key": "setting1",
+                "val": "Value 1"
+            },
+            {
+                "z": "rmv",
+                "key": "setting2",
+                "val": 200
+            },
+            {
+                "z": "upd-",
+                "key": "setting3",
+                "val": true
+            },
+            {
+                "z": "upd+",
+                "key": "setting3",
+                "val": null
+            },
+            {
+                "z": "add",
+                "key": "setting4",
+                "val": "blah blah"
+            },
+            {
+                "z": "add",
+                "key": "setting5",
+                "val": [
+                    {
+                        "z": "upd=",
+                        "key": "key5",
+                        "val": "value5"
+                    }
+                ]
+            },
+            {
+                "z": " ",
+                "key": "setting6",
+                "val": [
+                    {
+                        "z": " ",
+                        "key": "doge",
+                        "val": [
+                            {
+                                "z": "upd-",
+                                "key": "wow",
+                                "val": ""
+                            },
+                            {
+                                "z": "upd+",
+                                "key": "wow",
+                                "val": "so much"
+                            }
+                        ]
+                    },
+                    {
+                        "z": "upd=",
+                        "key": "key",
+                        "val": "value"
+                    },
+                    {
+                        "z": "add",
+                        "key": "ops",
+                        "val": "vops"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "z": " ",
+        "key": "group1",
+        "val": [
+            {
+                "z": "upd-",
+                "key": "baz",
+                "val": "bas"
+            },
+            {
+                "z": "upd+",
+                "key": "baz",
+                "val": "bars"
+            },
+            {
+                "z": "upd=",
+                "key": "foo",
+                "val": "bar"
+            },
+            {
+                "z": "upd-",
+                "key": "nest",
+                "val": [
+                    {
+                        "z": "upd=",
+                        "key": "key",
+                        "val": "value"
+                    }
+                ]
+            },
+            {
+                "z": "upd+",
+                "key": "nest",
+                "val": "str"
+            }
+        ]
+    },
+    {
+        "z": "rmv",
+        "key": "group2",
+        "val": [
+            {
+                "z": "upd=",
+                "key": "abc",
+                "val": 12345
+            },
+            {
+                "z": " ",
+                "key": "deep",
+                "val": [
+                    {
+                        "z": "upd=",
+                        "key": "id",
+                        "val": 45
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "z": "add",
+        "key": "group3",
+        "val": [
+            {
+                "z": " ",
+                "key": "deep",
+                "val": [
+                    {
+                        "z": " ",
+                        "key": "id",
+                        "val": [
+                            {
+                                "z": "upd=",
+                                "key": "number",
+                                "val": 45
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "z": "upd=",
+                "key": "fee",
+                "val": 100500
+            }
+        ]
+    }
+]
+
+
+
+[
+{"z":" ","key":"common","val":[
+    {"z":"add","key":"follow","val":false},
+    {"z":"upd=","key":"setting1","val":"Value 1"},
+    {"z":"rmv","key":"setting2","val":200},
+    {"z":"upd-","key":"setting3","val":true},
+    {"z":"upd+","key":"setting3","val":null},
+    {"z":"add","key":"setting4","val":"blah blah"},
+    {"z":"add","key":"setting5","val":[
+        {"z":"upd=","key":"key5","val":"value5"}]},
+    {"z":" ","key":"setting6","val":[
+        {"z":" ","key":"doge","val":[
+        {"z":"upd-","key":"wow","val":""},
+        {"z":"upd+","key":"wow","val":"so much"}]},
+    {"z":"upd=","key":"key","val":"value"},
+    {"z":"add","key":"ops","val":"vops"}]}]},
+{"z":" ","key":"group1","val":[
+    {"z":"upd-","key":"baz","val":"bas"},
+    {"z":"upd+","key":"baz","val":"bars"},
+    {"z":"upd=","key":"foo","val":"bar"},
+    {"z":"upd-","key":"nest","val":[
+        {"z":"upd=","key":"key","val":"value"}]},
+    {"z":"upd+","key":"nest","val":"str"}]},
+{"z":"rmv","key":"group2","val":[
+    {"z":"upd=","key":"abc","val":12345},
+    {"z":" ","key":"deep","val":[
+        {"z":"upd=","key":"id","val":45}]}]},
+    {"z":"add","key":"group3","val":[
+        {"z":" ","key":"deep","val":[
+            {"z":" ","key":"id","val":[
+    {"z":"upd=","key":"number","val":45}]}]},
+    {"z":"upd=","key":"fee","val":100500}]}
+]
