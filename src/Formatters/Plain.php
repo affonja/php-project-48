@@ -2,16 +2,16 @@
 
 namespace Differ;
 
-function plain(array $diff, string $depth = '', string $lf = "\n"): string
+function plain(array $diff, string $depth = ''): string
 {
     return array_reduce(
         $diff,
-        function ($str, $arr) use ($lf, $depth) {
+        function ($str, $arr) use ($depth) {
             if (is_array($arr['value']) && $arr['act'] === ' ') {
                 $depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
                 $str .= plain($arr['value'], $depth);
             } else {
-                $str .= getStr($arr['act'], $arr['key'], $arr['value'], $depth, $lf);
+                $str .= getDiffString($arr['act'], $arr['key'], $arr['value'], $depth);
             }
             return $str;
         },
@@ -19,19 +19,21 @@ function plain(array $diff, string $depth = '', string $lf = "\n"): string
     );
 }
 
-function getStr($act, $key, $val, $depth, $lf): string
+function getDiffString(string $act, string $key, mixed $val, string $depth): string
 {
     $key = ($depth === '') ? $key : "$depth.$key";
-    $val = is_array($val) ? '[complex value]' : $val;
-    $val = (is_bool($val) || is_null($val)) ?
-        strtolower(trim(var_export($val, true), "'")) :
-        ($val === '[complex value]' ? $val : "'$val'");
+    $val = match (true) {
+        is_array($val) => '[complex value]',
+        is_bool($val) || is_null($val) => strtolower(toString($val)),
+        default => "'$val'",
+    };
+
     $translate = [
-        'add' => "Property '$key' was added with value: $val$lf",
-        'rmv' => "Property '$key' was removed$lf",
+        'add' => "Property '$key' was added with value: $val\n",
+        'rmv' => "Property '$key' was removed\n",
         'upd=' => '',
         'upd-' => "Property '$key' was updated. From $val to ",
-        'upd+' => "$val$lf",
+        'upd+' => "$val\n",
     ];
 
     return $translate[$act];

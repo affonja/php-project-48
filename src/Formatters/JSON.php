@@ -2,11 +2,11 @@
 
 namespace Differ;
 
-function json(array $diff, string $lf = "\n"): string
+function json(array $diff): string
 {
     return array_reduce(
         $diff,
-        function ($str, $arr) use ($lf) {
+        function ($str, $arr) {
             $translate = [
                 'add' => "+",
                 'rmv' => '-',
@@ -19,10 +19,9 @@ function json(array $diff, string $lf = "\n"): string
 
             if (is_array($arr['value'])) {
                 $str .= formatTemplate($template, $str, [$translate[$arr['act']], $arr['key'], '[']);
-                $str .= json($arr['value']);
-                $str .= "]}";
+                $str .= json($arr['value']) . "]}";
             } else {
-                $arr['value'] = trim(var_export($arr['value'], true), "'");
+                $arr['value'] = toString($arr['value']);
                 $str .= formatTemplate($template, $str, [$translate[$arr['act']], $arr['key'], "\"{$arr['value']}\"}"]);
             }
 

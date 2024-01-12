@@ -10,14 +10,16 @@ function getFormatter(string $formatName, array $diff): string
         throw new Exception('Formatter not exist');
     }
     $formatFunc = "Differ\\$formatName";
-    if ($formatName === 'stylish') {
-        return "{\n{$formatFunc($diff)}}";
-    }
-    if ($formatName === 'plain') {
-        return "{$formatFunc($diff)}";
-    }
-    if ($formatName === 'json') {
-        return "[{$formatFunc($diff)}]";
-    }
-    return '';
+
+    return match ($formatName) {
+        'stylish' => "{\n{$formatFunc($diff)}}",
+        'plain' => "{$formatFunc($diff)}",
+        'json' => "[{$formatFunc($diff)}]",
+        default => '',
+    };
+}
+
+function toString(mixed $val): string
+{
+    return trim(var_export($val, true), "'");
 }

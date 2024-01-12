@@ -2,11 +2,11 @@
 
 namespace Differ;
 
-function stylish(array $diff, int $depth = 0, string $lf = "\n"): string
+function stylish(array $diff, int $depth = 0): string
 {
     return array_reduce(
         $diff,
-        function ($str, $arr) use ($lf, $depth) {
+        function ($str, $arr) use ($depth) {
             $translate = [
                 'add' => "+",
                 'rmv' => '-',
@@ -18,12 +18,12 @@ function stylish(array $diff, int $depth = 0, string $lf = "\n"): string
             $offset = str_repeat('    ', $depth);
             if (is_array($arr['value'])) {
                 $depth++;
-                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {{$lf}";
+                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {\n";
                 $str .= stylish($arr['value'], $depth);
-                $str .= "$offset    }$lf";
+                $str .= "$offset    }\n";
             } else {
-                $arr['value'] = trim(var_export($arr['value'], true), "'");
-                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {$arr['value']}$lf";
+                $arr['value'] = toString($arr['value']);
+                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {$arr['value']}\n";
             }
             return $str;
         },

@@ -36,10 +36,9 @@ function iter(array $arr1, array $arr2): array
             } elseif (!array_key_exists($key, $arr1) || $value1 === $value2) {
                 $z = ($value1 === $value2) ? 'upd=' : 'add';
                 $acc = getDiffIter($value2, $value2, $key, $z, $acc);
-            } elseif (!array_key_exists($key, $arr2) || $value1 === $value2) {
-                $z = ($value1 === $value2) ? 'upd=' : 'rmv';
-                $acc = getDiffIter($value1, $value1, $key, $z, $acc);
-            } elseif ($value1 !== $value2) {
+            } elseif (!array_key_exists($key, $arr2)) {
+                $acc = getDiffIter($value1, $value1, $key, 'rmv', $acc);
+            } else {
                 $acc = getDiffIter($value1, $value1, $key, 'upd-', $acc);
                 $acc = getDiffIter($value2, $value2, $key, 'upd+', $acc);
             }
@@ -50,26 +49,21 @@ function iter(array $arr1, array $arr2): array
     );
 }
 
-function getDiffIter(mixed $value1, mixed $value2, string $key, string $z, array $acc): array
+function getDiffIter(mixed $value1, mixed $value2, string $key, string $act, array $acc): array
 {
     if (is_array($value1)) {
         $acc[] = [
-            'act' => $z,
+            'act' => $act,
             'key' => $key,
             'value' => iter($value1, $value2)
         ];
     } else {
         $acc[] = [
-            'act' => $z,
+            'act' => $act,
             'key' => $key,
             'value' => $value1
         ];
     }
 
     return $acc;
-}
-
-function toString(mixed $val): string
-{
-    return trim(var_export($val, true), "'");
 }
