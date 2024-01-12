@@ -7,11 +7,11 @@ function plain(array $diff, $depth = '', string $lf = "\n"): string
     return array_reduce(
         $diff,
         function ($str, $arr) use ($lf, $depth) {
-            if (is_array($arr['val']) && $arr['z'] === ' ') {
+            if (is_array($arr['value']) && $arr['act'] === ' ') {
                 $depth = ($depth === '') ? $arr['key'] : $depth . '.' . $arr['key'];
-                $str .= plain($arr['val'], $depth);
+                $str .= plain($arr['value'], $depth);
             } else {
-                $str .= getStr($arr['z'], $arr['key'], $arr['val'], $depth, $lf);
+                $str .= getStr($arr['act'], $arr['key'], $arr['value'], $depth, $lf);
             }
             return $str;
         },
@@ -19,7 +19,7 @@ function plain(array $diff, $depth = '', string $lf = "\n"): string
     );
 }
 
-function getStr($z, $key, $val, $depth, $lf)
+function getStr($act, $key, $val, $depth, $lf)
 {
     $key = ($depth === '') ? $key : "$depth.$key";
     $val = is_array($val) ? '[complex value]' : $val;
@@ -33,6 +33,6 @@ function getStr($z, $key, $val, $depth, $lf)
         'upd-' => "Property '$key' was updated. From $val to ",
         'upd+' => "$val$lf",
     ];
-    $str = "{$translate[$z]}";
-    return $str;
+
+    return $translate[$act];
 }

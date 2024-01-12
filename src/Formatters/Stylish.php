@@ -18,14 +18,14 @@ function stylish(array $diff, int $depth = 0, string $lf = "\n"): string
                 ' ' => ' '
             ];
             $offset = str_repeat('    ', $depth);
-            if (is_array($arr['val'])) {
+            if (is_array($arr['value'])) {
                 $depth++;
-                $str .= "$offset  {$translate[$arr['z']]} {$arr['key']}: {{$lf}";
-                $str .= stylish($arr['val'], $depth);
+                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {{$lf}";
+                $str .= stylish($arr['value'], $depth);
                 $str .= "$offset    }$lf";
             } else {
-                $arr['val'] = trim(var_export($arr['val'], true), "'");
-                $str .= "$offset  {$translate[$arr['z']]} {$arr['key']}: {$arr['val']}$lf";
+                $arr['val'] = trim(var_export($arr['value'], true), "'");
+                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {$arr['value']}$lf";
             }
             return $str;
         },

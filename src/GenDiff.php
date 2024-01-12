@@ -16,10 +16,7 @@ function genDiff(string $path1, string $path2, $formatName = 'stylish'): string
     $file2 = parseFile($path2);
 
     $diff = iter($file1, $file2);
-//    $format = getFormatter($formatName);
-//    return $formatName === 'stylish' ? "{\n{$format($diff)}}" : "{$format($diff)}";
-    $formatResult = getFormatter($formatName, $diff);
-    return $formatResult;
+    return getFormatter($formatName, $diff);
 }
 
 function iter(array $arr1, array $arr2)
@@ -57,15 +54,15 @@ function getDiffIter(mixed $value1, mixed $value2, string $key, string $z, array
 {
     if (is_array($value1)) {
         $acc[] = [
-            'z' => $z,
+            'act' => $z,
             'key' => $key,
-            'val' => iter($value1, $value2)
+            'value' => iter($value1, $value2)
         ];
     } else {
         $acc[] = [
-            'z' => $z,
+            'act' => $z,
             'key' => $key,
-            'val' => $value1
+            'value' => $value1
         ];
     }
 
