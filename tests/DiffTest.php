@@ -4,10 +4,10 @@ namespace Differ\Tests;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Differ;
+use Differ\Differ;
 
-use function Differ\genDiff;
-use function Differ\getFullPath;
+use function Differ\Differ\genDiff;
+use function Differ\Differ\getFullPath;
 
 const FIXTURES_DIR = __DIR__ . '/fixtures/';
 

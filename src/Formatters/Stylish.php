@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ;
+namespace Differ\Differ;
 
 function stylish(array $diff, int $depth = 0): string
 {

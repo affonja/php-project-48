@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ;
+namespace Differ\Differ;
 
 function plain(array $diff, string $depth = ''): string
 {

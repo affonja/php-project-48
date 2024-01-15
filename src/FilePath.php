@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ;
+namespace Differ\Differ;
 
 define("ROOT_DIR", __DIR__ . '/../');
 define("FIXTURES_DIR", ROOT_DIR . '/tests/fixtures/');

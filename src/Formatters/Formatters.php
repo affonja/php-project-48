@@ -1,15 +1,15 @@
 <?php
 
-namespace Differ;
+namespace Differ\Differ;
 
 use Exception;
 
 function getFormatter(string $formatName, array $diff): string
 {
-    if (!function_exists('Differ\\' . $formatName)) {
+    if (!function_exists('Differ\\Differ\\' . $formatName)) {
         throw new Exception('Formatter not exist');
     }
-    $formatFunc = "Differ\\$formatName";
+    $formatFunc = "Differ\\Differ\\$formatName";
 
     return match ($formatName) {
         'stylish' => "{\n{$formatFunc($diff)}}",
