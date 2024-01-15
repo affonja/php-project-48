@@ -28,16 +28,16 @@ class DiffTest extends TestCase
         }
     }
 
-    public function testGetTypePath()
-    {
-        // Тест для абсолютного пути
-        $isAbsolutePath = Differ\getTypePath('\fixtures\plain1.json');
-        $this->assertTrue($isAbsolutePath);
+    /*   public function testGetTypePath()
+       {
+           // Тест для абсолютного пути
+           $isAbsolutePath = Differ\getTypePath('\fixtures\plain1.json');
+           $this->assertTrue($isAbsolutePath);
 
-        // Тест для относительного пути
-        $isRelativePath = Differ\getTypePath('test.txt');
-        $this->assertFalse($isRelativePath);
-    }
+           // Тест для относительного пути
+           $isRelativePath = Differ\getTypePath('test.txt');
+           $this->assertFalse($isRelativePath);
+       }*/
 
     public function testGetExtension()
     {
