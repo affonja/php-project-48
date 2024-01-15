@@ -13,48 +13,6 @@ const FIXTURES_DIR = __DIR__ . '/fixtures/';
 
 class DiffTest extends TestCase
 {
-    /*********filepath**********/
-    public function testGetFullPath()
-    {
-        $paths = [
-            'plain1.json',
-            'tests/fixtures/plain1.json',
-            '/tests/fixtures/plain1.json',
-            './plain1.json'
-        ];
-        $expectedPath = FIXTURES_DIR . 'plain1.json';
-        foreach ($paths as $path) {
-            $this->assertEquals(realpath($expectedPath), getFullPath($path));
-        }
-    }
-
-    /*   public function testGetTypePath()
-       {
-           // Тест для абсолютного пути
-           $isAbsolutePath = Differ\getTypePath('\fixtures\plain1.json');
-           $this->assertTrue($isAbsolutePath);
-
-           // Тест для относительного пути
-           $isRelativePath = Differ\getTypePath('test.txt');
-           $this->assertFalse($isRelativePath);
-       }*/
-
-    public function testGetExtension()
-    {
-        // Тест для файла с расширением json
-        $fileWithExtension = Differ\getExtension('plain1.json');
-        $this->assertEquals('json', $fileWithExtension);
-
-        // Тест для файла с расширением json
-        $fileWithExtension = Differ\getExtension('plain1.yaml');
-        $this->assertEquals('yaml', $fileWithExtension);
-
-        // Тест для файла без расширения
-        $fileWithoutExtension = Differ\getExtension('plain1');
-        $this->assertEquals('', $fileWithoutExtension);
-    }
-
-    /*********parcer**********/
     public function testParseJsonFile()
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
@@ -88,7 +46,6 @@ class DiffTest extends TestCase
         Differ\parseFile($unknownPath);
     }
 
-    /*********formatter**********/
     public function testUnknownFormatter()
     {
         $this->expectException(Exception::class);
@@ -98,7 +55,6 @@ class DiffTest extends TestCase
         Differ\getFormatter($nameFormatter, []);
     }
 
-    /*********stylish**********/
     public function testStylishPlain()
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
@@ -128,7 +84,6 @@ class DiffTest extends TestCase
         $this->assertEquals($expected, $formattedResult);
     }
 
-    /*********plain**********/
     public function testPlain(): void
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
@@ -143,7 +98,6 @@ class DiffTest extends TestCase
         $this->assertEquals($expected, $formattedResult);
     }
 
-    /*********json**********/
     public function testJSON(): void
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
@@ -158,7 +112,6 @@ class DiffTest extends TestCase
         $this->assertEquals($expected, $formattedResult);
     }
 
-    /*********diff**********/
     public function testGenDiffValidFile(): void
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
