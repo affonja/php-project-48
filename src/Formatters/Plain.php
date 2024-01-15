@@ -7,11 +7,11 @@ function plain(array $diff, string $depth = ''): string
     return array_reduce(
         $diff,
         function ($str, $arr) use ($depth) {
-            if (is_array($arr['value']) && $arr['act'] === ' ') {
+            if (is_array($arr['value']) && $arr['action'] === ' ') {
                 $depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
                 $str .= plain($arr['value'], $depth);
             } else {
-                $str .= getDiffString($arr['act'], $arr['key'], $arr['value'], $depth);
+                $str .= getDiffString($arr['action'], $arr['key'], $arr['value'], $depth);
             }
             return $str;
         },

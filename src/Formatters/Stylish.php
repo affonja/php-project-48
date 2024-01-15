@@ -18,12 +18,12 @@ function stylish(array $diff, int $depth = 0): string
             $offset = str_repeat('    ', $depth);
             if (is_array($arr['value'])) {
                 $depth++;
-                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {\n";
+                $str .= "$offset  {$translate[$arr['action']]} {$arr['key']}: {\n";
                 $str .= stylish($arr['value'], $depth);
                 $str .= "$offset    }\n";
             } else {
                 $arr['value'] = toString($arr['value']);
-                $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {$arr['value']}\n";
+                $str .= "$offset  {$translate[$arr['action']]} {$arr['key']}: {$arr['value']}\n";
             }
             return $str;
         },
