@@ -13,6 +13,41 @@ const FIXTURES_DIR = __DIR__ . '/fixtures/';
 
 class DiffTest extends TestCase
 {
+    public function testGetFullPath()
+    {
+        $paths = [
+            'plain1.json',
+            'tests/fixtures/plain1.json',
+            '/tests/fixtures/plain1.json',
+            './plain1.json'
+        ];
+        $expectedPath = FIXTURES_DIR . 'plain1.json';
+        foreach ($paths as $path) {
+            $this->assertEquals(realpath($expectedPath), getFullPath($path));
+        }
+    }
+
+    public function testGetTypePath()
+    {
+        $isAbsolutePath = Differ\getTypePath('/fixtures/plain1.json');
+        $this->assertTrue($isAbsolutePath);
+
+        $isRelativePath = Differ\getTypePath('test.txt');
+        $this->assertFalse($isRelativePath);
+    }
+
+    public function testGetExtension()
+    {
+        $fileWithExtension = Differ\getExtension('plain1.json');
+        $this->assertEquals('json', $fileWithExtension);
+
+        $fileWithExtension = Differ\getExtension('plain1.yaml');
+        $this->assertEquals('yaml', $fileWithExtension);
+
+        $fileWithoutExtension = Differ\getExtension('plain1');
+        $this->assertEquals('', $fileWithoutExtension);
+    }
+
     public function testParseJsonFile()
     {
         $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
