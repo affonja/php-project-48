@@ -6,10 +6,12 @@ define("ROOT_DIR", __DIR__ . '/../');
 define("FIXTURES_DIR", ROOT_DIR . '/tests/fixtures/');
 function getFullPath(string $path): string
 {
-    print_r("Path1: $path\n");
     $is_absolute_path = getTypePath($path);
     $dirname = pathinfo($path)['dirname'];
-
+    print_r('*****');
+    print_r($path);
+    var_dump($is_absolute_path);
+    var_dump($dirname);
     if (!$is_absolute_path) {
         $path = ($dirname === '.') ? FIXTURES_DIR . $path : ROOT_DIR . '/' . $path;
         return realpath($path);
