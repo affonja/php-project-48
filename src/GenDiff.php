@@ -32,18 +32,15 @@ function iter(array $arr1, array $arr2): array
             $value2 = $arr2[$key] ?? null;
 
             if (is_array($value1) && is_array($value2)) {
-                $acc = getDiffIter(['value1' => $value1, 'value2' => $value2, 'key' => $key, 'action' => ' '], $acc);
+                $acc = getDiffIter($value1, $value2, $key, ' ', $acc);
             } elseif (!array_key_exists($key, $arr1) || $value1 === $value2) {
-                $action = ($value1 === $value2) ? 'upd=' : 'add';
-                $acc = getDiffIter(
-                    ['value1' => $value2, 'value2' => $value2, 'key' => $key, 'action' => $action],
-                    $acc
-                );
+                $z = ($value1 === $value2) ? 'upd=' : 'add';
+                $acc = getDiffIter($value2, $value2, $key, $z, $acc);
             } elseif (!array_key_exists($key, $arr2)) {
-                $acc = getDiffIter(['value1' => $value1, 'value2' => $value1, 'key' => $key, 'action' => 'rmv'], $acc);
+                $acc = getDiffIter($value1, $value1, $key, 'rmv', $acc);
             } else {
-                $acc = getDiffIter(['value1' => $value1, 'value2' => $value1, 'key' => $key, 'action' => 'upd-'], $acc);
-                $acc = getDiffIter(['value1' => $value2, 'value2' => $value2, 'key' => $key, 'action' => 'upd+'], $acc);
+                $acc = getDiffIter($value1, $value1, $key, 'upd-', $acc);
+                $acc = getDiffIter($value2, $value2, $key, 'upd+', $acc);
             }
 
             return $acc;
@@ -52,19 +49,19 @@ function iter(array $arr1, array $arr2): array
     );
 }
 
-function getDiffIter(array $data, array $acc): array
+function getDiffIter(mixed $value1, mixed $value2, string $key, string $act, array $acc): array
 {
-    if (is_array($data['value1'])) {
+    if (is_array($value1)) {
         $acc[] = [
-            'action' => $data['action'],
-            'key' => $data['key'],
-            'value' => iter($data['value1'], $data['value2'])
+            'act' => $act,
+            'key' => $key,
+            'value' => iter($value1, $value2)
         ];
     } else {
         $acc[] = [
-            'action' => $data['action'],
-            'key' => $data['key'],
-            'value' => $data['value1']
+            'act' => $act,
+            'key' => $key,
+            'value' => $value1
         ];
     }
 

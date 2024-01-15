@@ -15,18 +15,14 @@ function json(array $diff): string
                 'upd+' => '+',
                 ' ' => ' '
             ];
-            $template = '{"action":"%s","key":"%s","value":%s';
+            $template = '{"act":"%s","key":"%s","value":%s';
 
             if (is_array($arr['value'])) {
-                $str .= formatTemplate($template, $str, [$translate[$arr['action']], $arr['key'], '[']);
+                $str .= formatTemplate($template, $str, [$translate[$arr['act']], $arr['key'], '[']);
                 $str .= json($arr['value']) . "]}";
             } else {
                 $arr['value'] = toString($arr['value']);
-                $str .= formatTemplate(
-                    $template,
-                    $str,
-                    [$translate[$arr['action']], $arr['key'], "\"{$arr['value']}\"}"]
-                );
+                $str .= formatTemplate($template, $str, [$translate[$arr['act']], $arr['key'], "\"{$arr['value']}\"}"]);
             }
 
             return $str;
