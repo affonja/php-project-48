@@ -31,7 +31,7 @@ class DiffTest extends TestCase
     public function testGetTypePath()
     {
         // Тест для абсолютного пути
-        $isAbsolutePath = Differ\getTypePath('/fixtures/plain1.json');
+        $isAbsolutePath = Differ\getTypePath('\fixtures\plain1.json');
         $this->assertTrue($isAbsolutePath);
 
         // Тест для относительного пути
