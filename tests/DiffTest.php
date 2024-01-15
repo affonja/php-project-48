@@ -166,8 +166,8 @@ class DiffTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('File not exist');
 
-        $path1 = 'tests/fixtures/file1000.json';
-        $path2 = 'tests/fixtures/file2.json';
+        $path1 = FIXTURES_DIR . 'plain1000.json';
+        $path2 = FIXTURES_DIR . 'plain1.json';
 
         genDiff($path1, $path2);
     }
