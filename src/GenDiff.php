@@ -34,8 +34,8 @@ function iter(array $arr1, array $arr2): array
             if (is_array($value1) && is_array($value2)) {
                 $acc = getDiffIter($value1, $value2, $key, ' ', $acc);
             } elseif (!array_key_exists($key, $arr1) || $value1 === $value2) {
-                $z = ($value1 === $value2) ? 'upd=' : 'add';
-                $acc = getDiffIter($value2, $value2, $key, $z, $acc);
+                $action = ($value1 === $value2) ? 'upd=' : 'add';
+                $acc = getDiffIter($value2, $value2, $key, $action, $acc);
             } elseif (!array_key_exists($key, $arr2)) {
                 $acc = getDiffIter($value1, $value1, $key, 'rmv', $acc);
             } else {

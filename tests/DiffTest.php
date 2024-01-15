@@ -88,6 +88,16 @@ class DiffTest extends TestCase
         Differ\parseFile($unknownPath);
     }
 
+    /*********formatter**********/
+    public function testUnknownFormatter()
+    {
+        $this->expectException(Exception::class);
+
+        $nameFormatter = 'unknown';
+
+        Differ\getFormatter($nameFormatter, []);
+    }
+
     /*********stylish**********/
     public function testStylishPlain()
     {
@@ -114,7 +124,6 @@ class DiffTest extends TestCase
         $arr = explode("\n\n\n", trim($fileContents));
         $diff = json_decode($arr[1], true);
         $formattedResult = trim(Differ\stylish($diff));
-
 
         $this->assertEquals($expected, $formattedResult);
     }
@@ -173,5 +182,19 @@ class DiffTest extends TestCase
         $path2 = 'tests/fixtures/file2.json';
 
         genDiff($path1, $path2);
+    }
+
+    public function testGenDiffNestedFile(): void
+    {
+        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
+        $arr = explode("\n\n\n", trim($fileContents));
+        $expected = trim($arr[7]);
+
+        $path1 = FIXTURES_DIR . 'nest1.json';
+        $path2 = FIXTURES_DIR . 'nest2.json';
+
+        $result = genDiff($path1, $path2);
+
+        $this->assertEquals($expected, $result);
     }
 }
