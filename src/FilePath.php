@@ -12,15 +12,14 @@ function getFullPath(string $path): string
     print_r(pathinfo($path));
     if (!$is_absolute_path) {
         $path = ($dirname === '.') ? FIXTURES_DIR . $path : ROOT_DIR . '/' . $path;
-        print_r("relpath $path\n");
         return realpath($path);
     }
     if (stripos($dirname, realpath(ROOT_DIR)) === false && ($path[0] === '/' || $path[0] === '\\')) {
-        $path = ROOT_DIR . $path;
+//        $path = ROOT_DIR . $path;
         print_r("othpath $path\n");
+        print_r("oth_real " . realpath($path) . "\n");
         return realpath($path);
     }
-    print_r("real " . realpath($path) . "\n");
     return realpath($path);
 }
 
