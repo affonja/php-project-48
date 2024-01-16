@@ -34,4 +34,3 @@ $format = $args['--format'];
 
 $diff = genDiff($pathToFile1, $pathToFile2, $format);
 print_r($diff);
-print_r(PHP_EOL);

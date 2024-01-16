@@ -13,7 +13,7 @@ function getFormatter(string $formatName, array $diff): string
 
     return match ($formatName) {
         'stylish' => "{\n{$formatFunc($diff)}}",
-        'plain' => "{$formatFunc($diff)}",
+        'plain' => trim("{$formatFunc($diff)}"),
         'json' => "[{$formatFunc($diff)}]",
         default => '',
     };
