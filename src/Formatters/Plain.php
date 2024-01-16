@@ -24,6 +24,7 @@ function getDiffString(string $act, string $key, mixed $val, string $depth): str
     $key = ($depth === '') ? $key : "$depth.$key";
     $val = match (true) {
         is_array($val) => '[complex value]',
+        is_int($val) => toString($val),
         is_bool($val) || is_null($val) => strtolower(toString($val)),
         default => "'$val'",
     };
