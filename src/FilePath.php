@@ -8,18 +8,15 @@ function getFullPath(string $path): string
 {
     $is_absolute_path = getTypePath($path);
     $dirname = pathinfo($path)['dirname'];
-    print_r("is_absolute_path - $is_absolute_path \n");
-    print_r(pathinfo($path));
     if (!$is_absolute_path) {
         $path = ($dirname === '.') ? FIXTURES_DIR . $path : ROOT_DIR . '/' . $path;
         return realpath($path);
     }
-    if (stripos($dirname, realpath(ROOT_DIR)) === false && ($path[0] === '/' || $path[0] === '\\')) {
-//        $path = ROOT_DIR . $path;
-        print_r("othpath $path\n");
-        print_r("oth_real " . realpath($path) . "\n");
+    if (realpath($path) === false) {
+        $path = ROOT_DIR . $path;
         return realpath($path);
     }
+
     return realpath($path);
 }
 

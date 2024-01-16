@@ -22,7 +22,9 @@ function stylish(array $diff, int $depth = 0): string
                 $str .= stylish($arr['value'], $depth);
                 $str .= "$offset    }\n";
             } else {
-                $arr['value'] = toString($arr['value']);
+                $arr['value'] = (!is_null($arr['value'])) ?
+                    toString($arr['value']) :
+                    strtolower(toString($arr['value']));
                 $str .= "$offset  {$translate[$arr['act']]} {$arr['key']}: {$arr['value']}\n";
             }
             return $str;
