@@ -10,6 +10,9 @@ gendiff:
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src bin tests
 
+lint2:
+	composer exec --verbose phpstan analyse -- -c phpstan.neon
+
 test:
 	composer exec --verbose phpunit tests
 

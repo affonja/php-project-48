@@ -3,24 +3,19 @@
 namespace Differ\Differ;
 
 define("ROOT_DIR", __DIR__ . '/../');
-define("FIXTURES_DIR", ROOT_DIR . '/tests/fixtures/');
-function getFullPath(string $path): string
+define("FIXTURES_DIR", ROOT_DIR . 'tests/fixtures/');
+
+function getFullPath(string $path): string|bool
 {
     $is_absolute_path = getTypePath($path);
-    $dirname = pathinfo($path)['dirname'];
-    if (!$is_absolute_path) {
-        $path = ($dirname === '.') ? FIXTURES_DIR . $path : ROOT_DIR . '/' . $path;
-        return realpath($path);
-    }
-    if (realpath($path) === false) {
-        $path = ROOT_DIR . $path;
-        return realpath($path);
-    }
 
-    return realpath($path);
+    if ($is_absolute_path) {
+        return realpath($path) ?: realpath(ROOT_DIR . $path);
+    }
+    return realpath(ROOT_DIR . $path) ?: realpath(FIXTURES_DIR . $path);
 }
 
-function getTypePath(string $path): bool
+function getTypePath(string $path): bool|int
 {
     $a = strspn($path, '/\\', 0, 1);
     $b = strlen($path) > 3 && ctype_alpha($path[0]);

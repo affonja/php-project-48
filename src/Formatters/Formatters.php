@@ -6,15 +6,15 @@ use Exception;
 
 function getFormatter(string $formatName, array $diff): string
 {
-    if (!function_exists('Differ\\Differ\\' . $formatName)) {
-        throw new Exception('Formatter not exist');
-    }
     $formatFunc = "Differ\\Differ\\$formatName";
+    if (!function_exists($formatFunc) || !is_callable($formatFunc)) {
+        throw new Exception('Formatter not valid');
+    }
 
     return match ($formatName) {
-        'stylish' => "{\n{$formatFunc($diff)}}",
-        'plain' => trim("{$formatFunc($diff)}"),
-        'json' => "[{$formatFunc($diff)}]",
+        'stylish' => "{\n" . implode($formatFunc($diff)) . "}",
+        'plain' => trim(implode($formatFunc($diff))),
+        'json' => "[" . implode($formatFunc($diff)) . "]",
         default => '',
     };
 }

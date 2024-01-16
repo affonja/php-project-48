@@ -2,27 +2,27 @@
 
 namespace Differ\Differ;
 
-function plain(array $diff, string $depth = ''): string
+function plain(array $diff, string $depth = ''): array
 {
     return array_reduce(
         $diff,
-        function ($str, $arr) use ($depth) {
+        function ($acc, $arr) use ($depth) {
+            $key = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
             if (is_array($arr['value']) && $arr['act'] === ' ') {
-                $depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
-                $str .= plain($arr['value'], $depth);
+                $str_depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
+                $new_str = plain($arr['value'], $str_depth);
             } else {
-                $str .= getDiffString($arr['act'], $arr['key'], $arr['value'], $depth);
+                $new_str = [getDiffString($arr['act'], $key, $arr['value'])];
             }
-            return $str;
+            return array_merge($acc, $new_str);
         },
-        ""
+        []
     );
 }
 
-function getDiffString(string $act, string $key, mixed $val, string $depth): string
+function getDiffString(string $act, string $key, mixed $val): string
 {
-    $key = ($depth === '') ? $key : "$depth.$key";
-    $val = match (true) {
+    $new_val = match (true) {
         is_array($val) => '[complex value]',
         is_int($val) => toString($val),
         is_bool($val) || is_null($val) => strtolower(toString($val)),
@@ -30,11 +30,11 @@ function getDiffString(string $act, string $key, mixed $val, string $depth): str
     };
 
     $translate = [
-        'add' => "Property '$key' was added with value: $val\n",
+        'add' => "Property '$key' was added with value: $new_val\n",
         'rmv' => "Property '$key' was removed\n",
         'upd=' => '',
-        'upd-' => "Property '$key' was updated. From $val to ",
-        'upd+' => "$val\n",
+        'upd-' => "Property '$key' was updated. From $new_val to ",
+        'upd+' => "$new_val\n",
     ];
 
     return $translate[$act];

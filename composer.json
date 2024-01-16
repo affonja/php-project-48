@@ -27,7 +27,7 @@
       "src/Formatters/Stylish.php",
       "src/Formatters/Plain.php",
       "src/Formatters/Formatters.php",
-      "src/Formatters/JSON.php",
+      "src/Formatters/Json.php",
       "tests/DiffTest.php"
     ]
   },
@@ -39,6 +39,7 @@
     "symfony/yaml": "^6.4"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.4"
+    "phpunit/phpunit": "^10.4",
+    "hexlet/phpstan-fp": "^2.0"
   }
 }
