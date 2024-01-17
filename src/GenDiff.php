@@ -4,10 +4,10 @@ namespace Differ\Differ;
 
 use Exception;
 
-function genDiff(string $path1, string $path2, $formatName = 'stylish'): string
+function genDiff(string $path1, string $path2, string $formatName = 'stylish'): string
 {
-    $full_path1 = getFullPath($path1);
-    $full_path2 = getFullPath($path2);
+    $full_path1 = is_bool(getFullPath($path1)) ? '' : getFullPath($path1);
+    $full_path2 = is_bool(getFullPath($path2)) ? '' : getFullPath($path2);
 
     if (!file_exists($full_path1) || (!file_exists($full_path2))) {
         throw new Exception("File not exist");
@@ -58,7 +58,7 @@ function getDiffIter(mixed $value1, mixed $value2, string $key, string $act): ar
             [
                 'act' => $act,
                 'key' => $key,
-                'value' => iter($value1, $value2)
+                'value' => iter($value1, (array)$value2)
             ]
         ];
     } else {

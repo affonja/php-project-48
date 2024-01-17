@@ -15,7 +15,7 @@ function json(array $diff): array
                 'upd+' => '+',
                 ' ' => ' '
             ];
-            $template = empty($acc) ?
+            $template = $acc === [] ?
                 '{"act":"%s","key":"%s","value":%s' :
                 ',{"act":"%s","key":"%s","value":%s';
 
