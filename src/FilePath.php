@@ -16,12 +16,22 @@ function getFullPath(string $path): string|bool
 
 function getTypePath(string $path): bool
 {
+    /*
     $a = (bool)strspn($path, '/\\', 0, 1);
     $b = (bool)strlen($path) > 3 && ctype_alpha($path[0]);
     $c = substr($path, 1, 1) === ':';
     $d = (bool)strspn($path, '/\\', 2, 1);
 
-    return $a || ($b && $c && $d);
+    return $a || ($b && $c && $d);*/
+
+    $result = (bool)strspn($path, '/\\', 0, 1)
+        || (strlen($path) > 3 && ctype_alpha($path[0])
+            && substr($path, 1, 1) === ':'
+            && (bool)strspn($path, '/\\', 2, 1)
+        )
+        || null !== parse_url($path, PHP_URL_SCHEME);
+
+    return $result;
 }
 
 function getExtension(string $file): string

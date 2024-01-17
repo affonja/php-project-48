@@ -14,10 +14,10 @@ function parseFile(string $path): array
 
     $type = getExtension($path);
     if ($type === 'json') {
-        return json_decode($content, true);
+        return (array)json_decode($content, true);
     }
     if ($type === 'yml' || $type === 'yaml') {
-        return Yaml::parseFile($path);
+        return (array)Yaml::parseFile($path);
     }
     throw new Exception('Unknown extension file');
 }
