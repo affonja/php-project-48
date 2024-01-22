@@ -10,22 +10,30 @@ use function Differ\Differ\genDiff;
 use function Differ\Differ\getFullPath;
 
 const FIXTURES_DIR = __DIR__ . '/fixtures/';
+define("EXPECTED_JSON", explode("\n\n\n", file_get_contents(FIXTURES_DIR . 'expected')));
+define("DIFF", explode("\n\n\n", file_get_contents(FIXTURES_DIR . 'diffs')));
+
 
 class DiffTest extends TestCase
 {
-    public function testGetFullPath()
+    public static function pathProvider(): array
     {
-        $paths = [
-            'plain1.json',
-            'tests/fixtures/plain1.json',
-            './tests/fixtures/plain1.json',
-            '/tests/fixtures/plain1.json',
-            './plain1.json'
+        return [
+            ['plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
+            ['tests/fixtures/plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
+            ['./tests/fixtures/plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
+            ['/tests/fixtures/plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
+            ['./plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
         ];
-        $expectedPath = FIXTURES_DIR . 'plain1.json';
-        foreach ($paths as $path) {
-            $this->assertEquals(realpath($expectedPath), getFullPath($path));
-        }
+    }
+
+    /**
+     * @dataProvider pathProvider
+     */
+    public function testGetFullPath($input, $expected)
+    {
+        $result = getFullPath($input);
+        $this->assertEquals($expected, $result);
     }
 
     public function testGetTypePath()
@@ -49,26 +57,20 @@ class DiffTest extends TestCase
         $this->assertEquals('', $fileWithoutExtension);
     }
 
-    public function testParseJsonFile()
+    public static function parserProvider(): array
     {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $expectedJSON = explode("\n\n\n", $fileContents)[0];
-        $expected = json_decode($expectedJSON, true);
-        $jsonPath = FIXTURES_DIR . 'plain1.json';
-
-        $parsedData = Differ\parseFile($jsonPath);
-
-        $this->assertEquals($expected, $parsedData);
+        return [
+            [FIXTURES_DIR . 'plain1.json', json_decode(EXPECTED_JSON[0], true)],
+            [FIXTURES_DIR . 'plain1.yaml', json_decode(EXPECTED_JSON[0], true)],
+        ];
     }
 
-    public function testParseYamlFile()
+    /**
+     * @dataProvider parserProvider
+     */
+    public function testParseValidFile($path, $expected)
     {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $expectedJSON = explode("\n\n\n", $fileContents)[0];
-        $expected = json_decode($expectedJSON, true);
-        $yamlPath = FIXTURES_DIR . 'plain1.yaml';
-
-        $parsedData = Differ\parseFile($yamlPath);
+        $parsedData = Differ\parseFile($path);
 
         $this->assertEquals($expected, $parsedData);
     }
@@ -91,74 +93,46 @@ class DiffTest extends TestCase
         Differ\getFormatter($nameFormatter, []);
     }
 
-    public function testStylishPlain()
+    public static function formatterProvider(): array
     {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $expected = $arr[1];
-
-        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $diff = json_decode($arr[0], true);
-        $formattedResult = rtrim(implode('', Differ\stylish($diff)));
-
-
-        $this->assertEquals($expected, $formattedResult);
+        return [
+            [json_decode(DIFF[0], true), 'stylish', EXPECTED_JSON[1]],
+            [json_decode(DIFF[0], true), 'plain', EXPECTED_JSON[2]],
+            [json_decode(DIFF[0], true), 'json', EXPECTED_JSON[3]],
+            [json_decode(DIFF[1], true), 'stylish', EXPECTED_JSON[6]],
+            [json_decode(DIFF[1], true), 'plain', EXPECTED_JSON[4]],
+            [json_decode(DIFF[1], true), 'json', EXPECTED_JSON[5]],
+        ];
     }
 
-    public function testStylishNested()
+    /**
+     * @dataProvider formatterProvider
+     */
+    public function testFormatters($input, $format_name, $expected)
     {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $expected = $arr[2];
-
-        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $diff = json_decode($arr[1], true);
-        $formattedResult = rtrim(implode('', Differ\stylish($diff)));
-
-        $this->assertEquals($expected, $formattedResult);
+        $result = Differ\getFormatter($format_name, $input);
+        $this->assertEquals($expected, $result);
     }
 
-    public function testPlain(): void
+    public static function genDiffProvider(): array
     {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $expected = $arr[4];
-
-        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $diff = json_decode($arr[1], true);
-        $formattedResult = trim(implode('', Differ\plain($diff)));
-
-        $this->assertEquals($expected, $formattedResult);
+        return [
+            [FIXTURES_DIR . 'plain1.json', FIXTURES_DIR . 'plain2.json', 'stylish', EXPECTED_JSON[1]],
+            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'stylish', EXPECTED_JSON[6]],
+            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'plain', EXPECTED_JSON[4]],
+            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'json', EXPECTED_JSON[5]],
+            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'stylish', EXPECTED_JSON[6]],
+            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'plain', EXPECTED_JSON[4]],
+            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'json', EXPECTED_JSON[5]],
+        ];
     }
 
-    public function testJSON(): void
+    /**
+     * @dataProvider genDiffProvider
+     */
+    public function testGenDiffValidFile($path1, $path2, $format_name, $expected): void
     {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $expected = trim($arr[6]);
-
-        $fileContents = file_get_contents(FIXTURES_DIR . 'diffs');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $diff = json_decode($arr[1], true);
-        $formattedResult = implode('', Differ\json($diff));
-
-        $this->assertEquals($expected, $formattedResult);
-    }
-
-    public function testGenDiffValidFile(): void
-    {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $expected = trim($arr[3]);
-
-        $path1 = FIXTURES_DIR . 'plain1.json';
-        $path2 = FIXTURES_DIR . 'plain2.json';
-
-        $result = genDiff($path1, $path2);
-
+        $result = genDiff($path1, $path2, $format_name);
         $this->assertEquals($expected, $result);
     }
 
@@ -171,19 +145,5 @@ class DiffTest extends TestCase
         $path2 = FIXTURES_DIR . 'plain1.json';
 
         genDiff($path1, $path2);
-    }
-
-    public function testGenDiffNestedFile(): void
-    {
-        $fileContents = file_get_contents(FIXTURES_DIR . 'expected');
-        $arr = explode("\n\n\n", trim($fileContents));
-        $expected = trim($arr[7]);
-
-        $path1 = FIXTURES_DIR . 'nest1.json';
-        $path2 = FIXTURES_DIR . 'nest2.json';
-
-        $result = genDiff($path1, $path2);
-
-        $this->assertEquals($expected, $result);
     }
 }
