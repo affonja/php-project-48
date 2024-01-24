@@ -6,17 +6,21 @@ use Exception;
 
 function genDiff(string $path1, string $path2, string $formatName = 'stylish'): string
 {
-    $full_path1 = is_bool(getFullPath($path1)) ? '' : getFullPath($path1);
-    $full_path2 = is_bool(getFullPath($path2)) ? '' : getFullPath($path2);
-
-    if (!file_exists($full_path1) || (!file_exists($full_path2))) {
-        throw new Exception("File not exist");
-    }
-    $file1 = parseFile($full_path1);
-    $file2 = parseFile($full_path2);
+    $file1 = getParsedData($path1);
+    $file2 = getParsedData($path2);
 
     $diff = iter($file1, $file2);
     return getFormatter($formatName, $diff);
+}
+
+function getParsedData(string $path): array
+{
+    $full_path = is_bool(getFullPath($path)) ? '' : getFullPath($path);
+
+    if (!file_exists($full_path)) {
+        throw new Exception("File not exist");
+    }
+    return parseFile($full_path);
 }
 
 function iter(array $arr1, array $arr2): array

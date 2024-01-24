@@ -24,6 +24,8 @@ class DiffTest extends TestCase
             ['./tests/fixtures/plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
             ['/tests/fixtures/plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
             ['./plain1.json', realpath(FIXTURES_DIR . 'plain1.json')],
+            ['C:/tests/plain1.json', false],
+            ['/home/plain1.json', false],
         ];
     }
 
@@ -38,23 +40,29 @@ class DiffTest extends TestCase
 
     public function testGetTypePath()
     {
-        $isAbsolutePath = Differ\getTypePath('/fixtures/plain1.json');
+        $isAbsolutePath = Differ\isAbsolutePath('/fixtures/plain1.json');
         $this->assertTrue($isAbsolutePath);
 
-        $isRelativePath = Differ\getTypePath('test.txt');
+        $isRelativePath = Differ\isAbsolutePath('test.txt');
         $this->assertFalse($isRelativePath);
     }
 
-    public function testGetExtension()
+    public static function extensionProvider(): array
     {
-        $fileWithExtension = Differ\getExtension('plain1.json');
-        $this->assertEquals('json', $fileWithExtension);
+        return [
+            ['plain1.json', 'json'],
+            ['plain1.yaml', 'yaml'],
+            ['plain1', ''],
+        ];
+    }
 
-        $fileWithExtension = Differ\getExtension('plain1.yaml');
-        $this->assertEquals('yaml', $fileWithExtension);
-
-        $fileWithoutExtension = Differ\getExtension('plain1');
-        $this->assertEquals('', $fileWithoutExtension);
+    /**
+     * @dataProvider extensionProvider
+     */
+    public function testGetExtension($input, $expected)
+    {
+        $extension = Differ\getExtension($input);
+        $this->assertEquals($expected, $extension);
     }
 
     public static function parserProvider(): array
