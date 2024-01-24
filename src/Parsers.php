@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Differ;
+namespace App;
 
 use Exception;
 use Symfony\Component\Yaml\Yaml;

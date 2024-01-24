@@ -1,12 +1,12 @@
 <?php
 
-namespace Differ\Differ;
+namespace App\Formatters;
 
 use Exception;
 
 function getFormatter(string $formatName, array $diff): string
 {
-    $formatFunc = "Differ\\Differ\\$formatName";
+    $formatFunc = "App\\Formatters\\$formatName";
     if (!function_exists($formatFunc)) {
         throw new Exception('Formatter not valid');
     }

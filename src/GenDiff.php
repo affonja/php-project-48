@@ -1,8 +1,10 @@
 <?php
 
-namespace Differ\Differ;
+namespace App;
 
 use Exception;
+
+use function App\Formatters\getFormatter;
 
 function genDiff(string $path1, string $path2, string $formatName = 'stylish'): string
 {

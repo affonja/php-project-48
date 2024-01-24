@@ -1,13 +1,16 @@
 <?php
 
-namespace Differ\Tests;
+namespace App\Tests;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Differ\Differ;
 
-use function Differ\Differ\genDiff;
-use function Differ\Differ\getFullPath;
+use function App\Formatters\getFormatter;
+use function App\genDiff;
+use function App\getExtension;
+use function App\getFullPath;
+use function App\isAbsolutePath;
+use function App\parseFile;
 
 const FIXTURES_DIR = __DIR__ . '/fixtures/';
 define("EXPECTED_JSON", explode("\n\n\n", file_get_contents(FIXTURES_DIR . 'expected')));
@@ -40,10 +43,10 @@ class DiffTest extends TestCase
 
     public function testGetTypePath()
     {
-        $isAbsolutePath = Differ\isAbsolutePath('/fixtures/plain1.json');
+        $isAbsolutePath = isAbsolutePath('/fixtures/plain1.json');
         $this->assertTrue($isAbsolutePath);
 
-        $isRelativePath = Differ\isAbsolutePath('test.txt');
+        $isRelativePath = isAbsolutePath('test.txt');
         $this->assertFalse($isRelativePath);
     }
 
@@ -61,7 +64,7 @@ class DiffTest extends TestCase
      */
     public function testGetExtension($input, $expected)
     {
-        $extension = Differ\getExtension($input);
+        $extension = getExtension($input);
         $this->assertEquals($expected, $extension);
     }
 
@@ -78,7 +81,7 @@ class DiffTest extends TestCase
      */
     public function testParseValidFile($path, $expected)
     {
-        $parsedData = Differ\parseFile($path);
+        $parsedData = parseFile($path);
 
         $this->assertEquals($expected, $parsedData);
     }
@@ -89,7 +92,7 @@ class DiffTest extends TestCase
 
         $unknownPath = FIXTURES_DIR . 'diffs';
 
-        Differ\parseFile($unknownPath);
+        parseFile($unknownPath);
     }
 
     public function testUnknownFormatter()
@@ -98,7 +101,7 @@ class DiffTest extends TestCase
 
         $nameFormatter = 'unknown';
 
-        Differ\getFormatter($nameFormatter, []);
+        getFormatter($nameFormatter, []);
     }
 
     public static function formatterProvider(): array
@@ -118,7 +121,7 @@ class DiffTest extends TestCase
      */
     public function testFormatters($input, $format_name, $expected)
     {
-        $result = Differ\getFormatter($format_name, $input);
+        $result = getFormatter($format_name, $input);
         $this->assertEquals($expected, $result);
     }
 

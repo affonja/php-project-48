@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Differ;
+namespace App;
 
 const ROOT_DIR = __DIR__ . '/../';
 const FIXTURES_DIR = ROOT_DIR . 'tests/fixtures/';
