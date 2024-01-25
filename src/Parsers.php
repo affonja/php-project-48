@@ -1,9 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Parsers;
 
 use Exception;
 use Symfony\Component\Yaml\Yaml;
+
+use function App\FilePath\getExtension;
 
 function parseFile(string $path): array
 {

@@ -1,10 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Gendiff;
 
 use Exception;
 
+use function App\FilePath\getFullPath;
 use function App\Formatters\getFormatter;
+use function App\Parsers\parseFile;
 
 function genDiff(string $path1, string $path2, string $formatName = 'stylish'): string
 {
