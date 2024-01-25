@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Formatters;
+namespace Differ\Formatters;
 
 function plain(array $diff, string $depth = ''): array
 {

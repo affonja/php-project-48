@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Formatters;
+namespace Differ\Formatters;
 
 function stylish(array $diff, int $depth = 0): array
 {

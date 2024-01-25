@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FilePath;
+namespace Differ\FilePath;
 
 use Symfony\Component\Filesystem\Filesystem;
 

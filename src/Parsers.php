@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Parsers;
+namespace Differ\Parsers;
 
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
-use function App\FilePath\getExtension;
+use function Differ\FilePath\getExtension;
 
 function parseFile(string $path): array
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Tests;
+namespace Differ\Tests;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-use function App\Formatters\getFormatter;
-use function App\Gendiff\genDiff;
-use function App\FilePath\getExtension;
-use function App\FilePath\getFullPath;
-use function App\Parsers\parseFile;
+use function Differ\Formatters\getFormatter;
+use function Differ\Differ\genDiff;
+use function Differ\FilePath\getExtension;
+use function Differ\FilePath\getFullPath;
+use function Differ\Parsers\parseFile;
 
 const FIXTURES_DIR = __DIR__ . '/fixtures/';
 

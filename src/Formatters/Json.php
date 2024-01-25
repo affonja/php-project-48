@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Formatters;
+namespace Differ\Formatters;
 
 function json(array $diff): array
 {
