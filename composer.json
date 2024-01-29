@@ -21,7 +21,7 @@
       "Differ\\": "src/"
     },
     "files": [
-      "src/GenDiff.php",
+      "src/Differ.php",
       "src/FilePath.php",
       "src/Parsers.php",
       "src/Formatters/Stylish.php",

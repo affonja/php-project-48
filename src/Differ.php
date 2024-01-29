@@ -5,7 +5,7 @@ namespace Differ\Differ;
 use Exception;
 
 use function Differ\FilePath\getFullPath;
-use function Differ\Formatters\getFormatter;
+use function Differ\Formatters\Formatters\getFormatter;
 use function Differ\Parsers\parseFile;
 
 function genDiff(string $path1, string $path2, string $formatName = 'stylish'): string
@@ -40,7 +40,7 @@ function iter(array $arr1, array $arr2): array
             $value2 = $arr2[$key] ?? null;
 
             if (is_array($value1) && is_array($value2)) {
-                $new_acc = getDiffIter($value1, $value2, $key, ' ');
+                $new_acc = getDiffIter($value1, $value2, $key, 'nested');
             } elseif (!array_key_exists($key, $arr1) || $value1 === $value2) {
                 $action = ($value1 === $value2) ? 'upd=' : 'add';
                 $new_acc = getDiffIter($value2, $value2, $key, $action);
@@ -59,12 +59,12 @@ function iter(array $arr1, array $arr2): array
     );
 }
 
-function getDiffIter(mixed $value1, mixed $value2, string $key, string $act): array
+function getDiffIter(mixed $value1, mixed $value2, string $key, string $action): array
 {
     if (is_array($value1)) {
         $new_acc = [
             [
-                'act' => $act,
+                'action' => $action,
                 'key' => $key,
                 'value' => iter($value1, (array)$value2)
             ]
@@ -72,7 +72,7 @@ function getDiffIter(mixed $value1, mixed $value2, string $key, string $act): ar
     } else {
         $new_acc = [
             [
-                'act' => $act,
+                'action' => $action,
                 'key' => $key,
                 'value' => $value1
             ]

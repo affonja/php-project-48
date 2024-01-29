@@ -1,31 +1,31 @@
 [
   {
-    "act": "rmv",
+    "action": "rmv",
     "key": "follow",
     "value": false
   },
   {
-    "act": "upd=",
+    "action": "upd=",
     "key": "host",
     "value": "hexlet.io"
   },
   {
-    "act": "rmv",
+    "action": "rmv",
     "key": "proxy",
     "value": "123.234.53.22"
   },
   {
-    "act": "upd-",
+    "action": "upd-",
     "key": "timeout",
     "value": 50
   },
   {
-    "act": "upd+",
+    "action": "upd+",
     "key": "timeout",
     "value": 20
   },
   {
-    "act": "add",
+    "action": "add",
     "key": "verbose",
     "value": true
   }

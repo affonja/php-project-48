@@ -5,10 +5,10 @@ namespace Differ\Tests;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-use function Differ\Formatters\getFormatter;
 use function Differ\Differ\genDiff;
 use function Differ\FilePath\getExtension;
 use function Differ\FilePath\getFullPath;
+use function Differ\Formatters\Formatters\getFormatter;
 use function Differ\Parsers\parseFile;
 
 const FIXTURES_DIR = __DIR__ . '/fixtures/';
@@ -91,63 +91,46 @@ class DiffTest extends TestCase
 
     public static function formatterProvider(): array
     {
-        $diffPlain = json_decode(file_get_contents(FIXTURES_DIR . '/testData/diff-plain'), true);
-        $diffNested = json_decode(file_get_contents(FIXTURES_DIR . '/testData/diff-nested'), true);
-
-        $expext1 = file_get_contents(FIXTURES_DIR . '/testData/expect-stylish-plain');
-        $expext2 = file_get_contents(FIXTURES_DIR . '/testData/expect-plain-plain');
-        $expext3 = file_get_contents(FIXTURES_DIR . '/testData/expect-json-plain');
-        $expext4 = file_get_contents(FIXTURES_DIR . '/testData/expect-stylish-nested');
-        $expext5 = file_get_contents(FIXTURES_DIR . '/testData/expect-plain-nested');
-        $expext6 = file_get_contents(FIXTURES_DIR . '/testData/expect-json-nested');
-
         return [
-            [$diffPlain, 'stylish', $expext1],
-            [$diffPlain, 'plain', $expext2],
-            [$diffPlain, 'json', $expext3],
-            [$diffNested, 'stylish', $expext4],
-            [$diffNested, 'plain', $expext5],
-            [$diffNested, 'json', $expext6],
+            ['/testData/diff-plain', 'stylish', '/testData/expect-stylish-plain'],
+            ['/testData/diff-plain', 'plain', '/testData/expect-plain-plain'],
+            ['/testData/diff-plain', 'json', '/testData/expect-json-plain'],
+            ['/testData/diff-nested', 'stylish', '/testData/expect-stylish-nested'],
+            ['/testData/diff-nested', 'plain', '/testData/expect-plain-nested'],
+            ['/testData/diff-nested', 'json', '/testData/expect-json-nested'],
         ];
     }
 
     /**
      * @dataProvider formatterProvider
      */
-    public function testFormatters($input, $format_name, $expected)
+    public function testFormatters($path_to_input, $format_name, $path_to_expected)
     {
-        $result = getFormatter($format_name, $input);
-        $this->assertEquals($expected, $result);
+        $input = json_decode(file_get_contents(FIXTURES_DIR . $path_to_input), true);
+        $actual = getFormatter($format_name, $input);
+        $this->assertStringEqualsFile(FIXTURES_DIR . $path_to_expected, $actual);
     }
 
     public static function genDiffProvider(): array
     {
-        $expext1 = file_get_contents(FIXTURES_DIR . '/testData/expect-stylish-plain');
-        $expext2 = file_get_contents(FIXTURES_DIR . '/testData/expect-stylish-nested');
-        $expext3 = file_get_contents(FIXTURES_DIR . '/testData/expect-plain-nested');
-        $expext4 = file_get_contents(FIXTURES_DIR . '/testData/expect-json-nested');
-        $expext5 = file_get_contents(FIXTURES_DIR . '/testData/expect-stylish-nested');
-        $expext6 = file_get_contents(FIXTURES_DIR . '/testData/expect-plain-nested');
-        $expext7 = file_get_contents(FIXTURES_DIR . '/testData/expect-json-nested');
-
         return [
-            [FIXTURES_DIR . 'plain1.json', FIXTURES_DIR . 'plain2.json', 'stylish', $expext1],
-            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'stylish', $expext2],
-            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'plain', $expext3],
-            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'json', $expext4],
-            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'stylish', $expext5],
-            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'plain', $expext6],
-            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'json', $expext7],
+            [FIXTURES_DIR . 'plain1.json', FIXTURES_DIR . 'plain2.json', 'stylish', '/testData/expect-stylish-plain'],
+            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'stylish', '/testData/expect-stylish-nested'],
+            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'plain', '/testData/expect-plain-nested'],
+            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'json', '/testData/expect-json-nested'],
+            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'stylish', '/testData/expect-stylish-nested'],
+            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'plain', '/testData/expect-plain-nested'],
+            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'json', '/testData/expect-json-nested'],
         ];
     }
 
     /**
      * @dataProvider genDiffProvider
      */
-    public function testGenDiffValidFile($path1, $path2, $format_name, $expected): void
+    public function testGenDiffValidFile($path1, $path2, $format_name, $path_to_expected): void
     {
-        $result = genDiff($path1, $path2, $format_name);
-        $this->assertEquals($expected, $result);
+        $actual = genDiff($path1, $path2, $format_name);
+        $this->assertStringEqualsFile(FIXTURES_DIR . $path_to_expected, $actual);
     }
 
     public function testGenDiffUnValidFile(): void

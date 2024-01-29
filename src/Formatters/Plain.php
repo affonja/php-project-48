@@ -1,26 +1,30 @@
 <?php
 
-namespace Differ\Formatters;
+namespace Differ\Formatters\Plain;
 
-function plain(array $diff, string $depth = ''): array
+use function Differ\Formatters\Formatters\toString;
+
+function plain(array $diff, string $depth = ''): string
 {
-    return array_reduce(
-        $diff,
-        function ($acc, $arr) use ($depth) {
-            $key = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
-            if (is_array($arr['value']) && $arr['act'] === ' ') {
-                $str_depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
-                $new_str = plain($arr['value'], $str_depth);
-            } else {
-                $new_str = [getDiffString($arr['act'], $key, $arr['value'])];
-            }
-            return array_merge($acc, $new_str);
-        },
-        []
-    );
+    $formatDiff = function ($arr) use (&$formatDiff, $depth) {
+        $key = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
+        if (is_array($arr['value']) && $arr['action'] === 'nested') {
+            $str_depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
+            return [plain($arr['value'], $str_depth)];
+        } else {
+            return [getDiffString($arr['action'], $key, $arr['value'])];
+        }
+    };
+
+    $result = array_reduce(array_map($formatDiff, $diff), fn($acc, $item) => array_merge($acc, $item), []);
+    if ($depth === '') {
+        return trim(implode($result));
+    }
+
+    return implode($result);
 }
 
-function getDiffString(string $act, string $key, mixed $val): string
+function getDiffString(string $action, string $key, mixed $val): string
 {
     $new_val = match (true) {
         is_array($val) => '[complex value]',
@@ -37,5 +41,5 @@ function getDiffString(string $act, string $key, mixed $val): string
         'upd+' => "$new_val\n",
     ];
 
-    return $translate[$act];
+    return $translate[$action];
 }

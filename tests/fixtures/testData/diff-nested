@@ -1,76 +1,76 @@
 [
   {
-    "act": " ",
+    "action": "nested",
     "key": "common",
     "value": [
       {
-        "act": "add",
+        "action": "add",
         "key": "follow",
         "value": false
       },
       {
-        "act": "upd=",
+        "action": "upd=",
         "key": "setting1",
         "value": "Value 1"
       },
       {
-        "act": "rmv",
+        "action": "rmv",
         "key": "setting2",
         "value": 200
       },
       {
-        "act": "upd-",
+        "action": "upd-",
         "key": "setting3",
         "value": true
       },
       {
-        "act": "upd+",
+        "action": "upd+",
         "key": "setting3",
         "value": null
       },
       {
-        "act": "add",
+        "action": "add",
         "key": "setting4",
         "value": "blah blah"
       },
       {
-        "act": "add",
+        "action": "add",
         "key": "setting5",
         "value": [
           {
-            "act": "upd=",
+            "action": "upd=",
             "key": "key5",
             "value": "value5"
           }
         ]
       },
       {
-        "act": " ",
+        "action": "nested",
         "key": "setting6",
         "value": [
           {
-            "act": " ",
+            "action": "nested",
             "key": "doge",
             "value": [
               {
-                "act": "upd-",
+                "action": "upd-",
                 "key": "wow",
                 "value": ""
               },
               {
-                "act": "upd+",
+                "action": "upd+",
                 "key": "wow",
                 "value": "so much"
               }
             ]
           },
           {
-            "act": "upd=",
+            "action": "upd=",
             "key": "key",
             "value": "value"
           },
           {
-            "act": "add",
+            "action": "add",
             "key": "ops",
             "value": "vops"
           }
@@ -79,57 +79,57 @@
     ]
   },
   {
-    "act": " ",
+    "action": "nested",
     "key": "group1",
     "value": [
       {
-        "act": "upd-",
+        "action": "upd-",
         "key": "baz",
         "value": "bas"
       },
       {
-        "act": "upd+",
+        "action": "upd+",
         "key": "baz",
         "value": "bars"
       },
       {
-        "act": "upd=",
+        "action": "upd=",
         "key": "foo",
         "value": "bar"
       },
       {
-        "act": "upd-",
+        "action": "upd-",
         "key": "nest",
         "value": [
           {
-            "act": "upd=",
+            "action": "upd=",
             "key": "key",
             "value": "value"
           }
         ]
       },
       {
-        "act": "upd+",
+        "action": "upd+",
         "key": "nest",
         "value": "str"
       }
     ]
   },
   {
-    "act": "rmv",
+    "action": "rmv",
     "key": "group2",
     "value": [
       {
-        "act": "upd=",
+        "action": "upd=",
         "key": "abc",
         "value": 12345
       },
       {
-        "act": " ",
+        "action": "nested",
         "key": "deep",
         "value": [
           {
-            "act": "upd=",
+            "action": "upd=",
             "key": "id",
             "value": 45
           }
@@ -138,19 +138,19 @@
     ]
   },
   {
-    "act": "add",
+    "action": "add",
     "key": "group3",
     "value": [
       {
-        "act": " ",
+        "action": "nested",
         "key": "deep",
         "value": [
           {
-            "act": " ",
+            "action": "nested",
             "key": "id",
             "value": [
               {
-                "act": "upd=",
+                "action": "upd=",
                 "key": "number",
                 "value": 45
               }
@@ -159,7 +159,7 @@
         ]
       },
       {
-        "act": "upd=",
+        "action": "upd=",
         "key": "fee",
         "value": 100500
       }

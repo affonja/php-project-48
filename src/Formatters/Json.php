@@ -1,45 +1,31 @@
 <?php
 
-namespace Differ\Formatters;
+namespace Differ\Formatters\Json;
 
-function json(array $diff): array
+use function Differ\Formatters\Formatters\toString;
+
+function json(array $diff): bool|string
 {
-    return array_reduce(
-        $diff,
-        function ($acc, $arr) {
-            $translate = [
-                'add' => "+",
-                'rmv' => '-',
-                'upd=' => ' ',
-                'upd-' => '-',
-                'upd+' => '+',
-                ' ' => ' '
-            ];
-            $template = $acc === [] ?
-                '{"act":"%s","key":"%s","value":%s' :
-                ',{"act":"%s","key":"%s","value":%s';
+    $translate = [
+        'add' => "+",
+        'rmv' => '-',
+        'upd=' => ' ',
+        'upd-' => '-',
+        'upd+' => '+',
+        'nested' => ' '
+    ];
 
-            if (is_array($arr['value'])) {
-                $new_str = array_merge(
-                    formatTemplate($template, [$translate[$arr['act']], $arr['key'], '[']),
-                    json($arr['value']),
-                    ["]}"]
-                );
-            } else {
-                $value = toString($arr['value']);
-                $new_str = formatTemplate(
-                    $template,
-                    [$translate[$arr['act']], $arr['key'], "\"$value\"}"]
-                );
-            }
+    $formatDiff = function ($item) use (&$formatDiff, $translate) {
+        $new_item['action'] = $translate[$item['action']];
+        if (is_array($item['value'])) {
+            $new_item['value'] = array_map($formatDiff, $item['value']);
+        } else {
+            $new_item['value'] = toString($item['value']);
+        }
+        return array_merge($item, $new_item);
+    };
 
-            return array_merge($acc, $new_str);
-        },
-        []
-    );
-}
+    $new_res = array_map($formatDiff, $diff);
 
-function formatTemplate(string $template, array $values): array
-{
-    return [sprintf($template, ...$values)];
+    return json_encode($new_res);
 }
