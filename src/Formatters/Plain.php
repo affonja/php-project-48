@@ -6,7 +6,7 @@ use function Differ\Formatters\Formatters\toString;
 
 function plain(array $diff, string $depth = ''): string
 {
-    $formatDiff = function ($arr) use (&$formatDiff, $depth) {
+    $formatDiff = function ($arr) use ($depth) {
         $key = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
         if (is_array($arr['value']) && $arr['action'] === 'nested') {
             $str_depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
@@ -17,6 +17,7 @@ function plain(array $diff, string $depth = ''): string
     };
 
     $result = array_reduce(array_map($formatDiff, $diff), fn($acc, $item) => array_merge($acc, $item), []);
+
     if ($depth === '') {
         return trim(implode($result));
     }

@@ -15,7 +15,7 @@ function stylish(array $diff, int $depth = 0): string
         'nested' => ' '
     ];
 
-    $formatDiff = function ($arr) use (&$formatDiff, $translate, $depth) {
+    $formatDiff = function ($arr) use ($translate, $depth) {
         $offset = str_repeat('    ', $depth);
         if (is_array($arr['value'])) {
             $new_depth = $depth + 1;
