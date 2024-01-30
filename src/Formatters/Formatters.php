@@ -6,7 +6,7 @@ use Exception;
 
 function getFormatter(string $formatName, array $diff): string
 {
-    $formatFunc = "Differ\\Formatters\\$formatName\\$formatName";
+    $formatFunc = "Differ\\Formatters\\$formatName\\format";
     if (!function_exists($formatFunc)) {
         throw new Exception('Formatter not valid');
     }

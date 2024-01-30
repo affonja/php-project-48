@@ -4,7 +4,7 @@ namespace Differ\Formatters\Json;
 
 use function Differ\Formatters\Formatters\toString;
 
-function json(array $diff): bool|string
+function format(array $diff): bool|string
 {
     $translate = [
         'add' => "+",

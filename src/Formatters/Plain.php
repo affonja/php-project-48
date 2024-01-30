@@ -4,13 +4,13 @@ namespace Differ\Formatters\Plain;
 
 use function Differ\Formatters\Formatters\toString;
 
-function plain(array $diff, string $depth = ''): string
+function format(array $diff, string $depth = ''): string
 {
     $formatDiff = function ($arr) use ($depth) {
         $key = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
         if (is_array($arr['value']) && $arr['action'] === 'nested') {
             $str_depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
-            return [plain($arr['value'], $str_depth)];
+            return [format($arr['value'], $str_depth)];
         } else {
             return [getDiffString($arr['action'], $key, $arr['value'])];
         }

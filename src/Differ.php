@@ -3,7 +3,9 @@
 namespace Differ\Differ;
 
 use Exception;
+use Symfony\Component\Yaml\Yaml;
 
+use function Differ\FilePath\getExtension;
 use function Differ\FilePath\getFullPath;
 use function Differ\Formatters\Formatters\getFormatter;
 use function Differ\Parsers\parseFile;
@@ -24,7 +26,15 @@ function getParsedData(string $path): array
     if (!file_exists($full_path)) {
         throw new Exception("File not exist");
     }
-    return parseFile($full_path);
+
+    $content = file_get_contents($full_path);
+    if ($content === false) {
+        throw new Exception('Unknown file');
+    }
+
+    $type = getExtension($path);
+
+    return parseFile($content, $type);
 }
 
 function iter(array $arr1, array $arr2): array
@@ -40,16 +50,21 @@ function iter(array $arr1, array $arr2): array
             $value2 = $arr2[$key] ?? null;
 
             if (is_array($value1) && is_array($value2)) {
-                $new_acc = getDiffIter($value1, $value2, $key, 'nested');
-            } elseif (!array_key_exists($key, $arr1) || $value1 === $value2) {
-                $action = ($value1 === $value2) ? 'upd=' : 'add';
-                $new_acc = getDiffIter($value2, $value2, $key, $action);
+                $value = getValue($value1, $value2);
+                $new_acc = getDiffIter($value, $key, 'nested');
             } elseif (!array_key_exists($key, $arr2)) {
-                $new_acc = getDiffIter($value1, $value1, $key, 'rmv');
+                $value = getValue($value1, $value1);
+                $new_acc = getDiffIter($value, $key, 'rmv');
+            } elseif (!array_key_exists($key, $arr1)) {
+                $value = getValue($value2, $value2);
+                $new_acc = getDiffIter($value, $key, 'add');
+            } elseif ($value1 === $value2) {
+                $value = getValue($value2, $value2);
+                $new_acc = getDiffIter($value, $key, 'upd=');
             } else {
                 $new_acc = array_merge(
-                    getDiffIter($value1, $value1, $key, 'upd-'),
-                    getDiffIter($value2, $value2, $key, 'upd+')
+                    getDiffIter(getValue($value1, $value1), $key, 'upd-'),
+                    getDiffIter(getValue($value2, $value2), $key, 'upd+')
                 );
             }
 
@@ -59,25 +74,18 @@ function iter(array $arr1, array $arr2): array
     );
 }
 
-function getDiffIter(mixed $value1, mixed $value2, string $key, string $action): array
+function getValue(mixed $value1, mixed $value2): mixed
 {
-    if (is_array($value1)) {
-        $new_acc = [
-            [
-                'action' => $action,
-                'key' => $key,
-                'value' => iter($value1, (array)$value2)
-            ]
-        ];
-    } else {
-        $new_acc = [
-            [
-                'action' => $action,
-                'key' => $key,
-                'value' => $value1
-            ]
-        ];
-    }
+    return (is_array($value1)) ? iter($value1, (array)$value2) : $value1;
+}
 
-    return $new_acc;
+function getDiffIter(mixed $value, string $key, string $action): array
+{
+    return [
+        [
+            'action' => $action,
+            'key' => $key,
+            'value' => $value
+        ]
+    ];
 }

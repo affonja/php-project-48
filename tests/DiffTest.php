@@ -6,6 +6,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 
 use function Differ\Differ\genDiff;
+use function Differ\Differ\getParsedData;
 use function Differ\FilePath\getExtension;
 use function Differ\FilePath\getFullPath;
 use function Differ\Formatters\Formatters\getFormatter;
@@ -56,17 +57,17 @@ class DiffTest extends TestCase
     {
         $json = json_decode(file_get_contents(FIXTURES_DIR . '/testData/expect-file1'), true);
         return [
-            [FIXTURES_DIR . 'plain1.json', $json],
-            [FIXTURES_DIR . 'plain1.yaml', $json],
+            [file_get_contents(FIXTURES_DIR . 'plain1.json'), 'json', $json],
+            [file_get_contents(FIXTURES_DIR . 'plain1.yaml'), 'yaml', $json],
         ];
     }
 
     /**
      * @dataProvider parserProvider
      */
-    public function testParseValidFile($path, $expected)
+    public function testParseValidFile($content, $type, $expected)
     {
-        $parsedData = parseFile($path);
+        $parsedData = parseFile($content, $type);
 
         $this->assertEquals($expected, $parsedData);
     }
@@ -77,7 +78,7 @@ class DiffTest extends TestCase
 
         $unknownPath = FIXTURES_DIR . '/testData/diff-plain';
 
-        parseFile($unknownPath);
+        getParsedData($unknownPath);
     }
 
     public function testUnknownFormatter()
@@ -114,13 +115,13 @@ class DiffTest extends TestCase
     public static function genDiffProvider(): array
     {
         return [
-            [FIXTURES_DIR . 'plain1.json', FIXTURES_DIR . 'plain2.json', 'stylish', '/testData/expect-stylish-plain'],
-            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'stylish', '/testData/expect-stylish-nested'],
-            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'plain', '/testData/expect-plain-nested'],
-            [FIXTURES_DIR . 'nest1.json', FIXTURES_DIR . 'nest2.json', 'json', '/testData/expect-json-nested'],
-            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'stylish', '/testData/expect-stylish-nested'],
-            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'plain', '/testData/expect-plain-nested'],
-            [FIXTURES_DIR . 'nest1.yaml', FIXTURES_DIR . 'nest2.yml', 'json', '/testData/expect-json-nested'],
+            ['plain1.json', 'plain2.json', 'stylish', '/testData/expect-stylish-plain'],
+            ['nest1.json', 'nest2.json', 'stylish', '/testData/expect-stylish-nested'],
+            ['nest1.json', 'nest2.json', 'plain', '/testData/expect-plain-nested'],
+            ['nest1.json', 'nest2.json', 'json', '/testData/expect-json-nested'],
+            ['nest1.yaml', 'nest2.yml', 'stylish', '/testData/expect-stylish-nested'],
+            ['nest1.yaml', 'nest2.yml', 'plain', '/testData/expect-plain-nested'],
+            ['nest1.yaml', 'nest2.yml', 'json', '/testData/expect-json-nested'],
         ];
     }
 
@@ -129,7 +130,7 @@ class DiffTest extends TestCase
      */
     public function testGenDiffValidFile($path1, $path2, $format_name, $path_to_expected): void
     {
-        $actual = genDiff($path1, $path2, $format_name);
+        $actual = genDiff(FIXTURES_DIR . $path1, FIXTURES_DIR . $path2, $format_name);
         $this->assertStringEqualsFile(FIXTURES_DIR . $path_to_expected, $actual);
     }
 

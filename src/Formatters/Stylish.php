@@ -4,7 +4,7 @@ namespace Differ\Formatters\Stylish;
 
 use function Differ\Formatters\Formatters\toString;
 
-function stylish(array $diff, int $depth = 0): string
+function format(array $diff, int $depth = 0): string
 {
     $translate = [
         'add' => "+",
@@ -20,7 +20,7 @@ function stylish(array $diff, int $depth = 0): string
         if (is_array($arr['value'])) {
             $new_depth = $depth + 1;
             $new_str_start = "$offset  {$translate[$arr['action']]} {$arr['key']}: {";
-            $new_str_mid = stylish($arr['value'], $new_depth);
+            $new_str_mid = format($arr['value'], $new_depth);
             $new_str_end = "$offset    }";
             return [$new_str_start, $new_str_mid, $new_str_end];
         } else {
