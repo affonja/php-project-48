@@ -1,1 +1,1 @@
-[{"action":"-","key":"follow","value":"false"},{"action":" ","key":"host","value":"hexlet.io"},{"action":"-","key":"proxy","value":"123.234.53.22"},{"action":"-","key":"timeout","value":"50"},{"action":"+","key":"timeout","value":"20"},{"action":"+","key":"verbose","value":"true"}]
+[{"action":"rmv","key":"follow","value":false},{"action":"upd=","key":"host","value":"hexlet.io"},{"action":"rmv","key":"proxy","value":"123.234.53.22"},{"action":"upd-","key":"timeout","value":50},{"action":"upd+","key":"timeout","value":20},{"action":"add","key":"verbose","value":true}]
