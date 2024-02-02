@@ -16,5 +16,8 @@ function getFormatter(string $formatName, array $diff): string
 
 function toString(mixed $val): string
 {
+    if (is_null($val)) {
+        return 'null';
+    }
     return trim(var_export($val, true), "'");
 }

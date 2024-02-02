@@ -8,9 +8,9 @@ function format(array $diff, string $depth = ''): string
 {
     $formatDiff = function ($arr) use ($depth) {
         $key = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
-        if (is_array($arr['value']) && $arr['action'] === 'nested') {
+        if (isset($arr['children'])) {
             $str_depth = ($depth === '') ? $arr['key'] : "$depth.{$arr['key']}";
-            return [format($arr['value'], $str_depth)];
+            return [format($arr['value'] ?? $arr['children'], $str_depth)];
         } else {
             return [getDiffString($arr['action'], $key, $arr['value'])];
         }

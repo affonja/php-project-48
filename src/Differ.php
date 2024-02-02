@@ -81,6 +81,15 @@ function getValue(mixed $value1, mixed $value2): mixed
 
 function getDiffIter(mixed $value, string $key, string $action): array
 {
+    if ($action === 'nested') {
+        return [
+            [
+                'action' => $action,
+                'key' => $key,
+                'children' => $value
+            ]
+        ];
+    }
     return [
         [
             'action' => $action,

@@ -2,7 +2,7 @@
   {
     "action": "nested",
     "key": "common",
-    "value": [
+    "children": [
       {
         "action": "add",
         "key": "follow",
@@ -47,11 +47,11 @@
       {
         "action": "nested",
         "key": "setting6",
-        "value": [
+        "children": [
           {
             "action": "nested",
             "key": "doge",
-            "value": [
+            "children": [
               {
                 "action": "upd-",
                 "key": "wow",
@@ -81,7 +81,7 @@
   {
     "action": "nested",
     "key": "group1",
-    "value": [
+    "children": [
       {
         "action": "upd-",
         "key": "baz",
@@ -127,7 +127,7 @@
       {
         "action": "nested",
         "key": "deep",
-        "value": [
+        "children": [
           {
             "action": "upd=",
             "key": "id",
@@ -144,11 +144,11 @@
       {
         "action": "nested",
         "key": "deep",
-        "value": [
+        "children": [
           {
             "action": "nested",
             "key": "id",
-            "value": [
+            "children": [
               {
                 "action": "upd=",
                 "key": "number",
