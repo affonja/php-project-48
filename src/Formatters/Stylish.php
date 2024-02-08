@@ -42,8 +42,8 @@ function formatDiff(array $arr, int $depth): array
         $new_str_end = "$offset    }";
         return [$new_str_start, $new_str_mid, $new_str_end];
     } else {
-        $value = toString($value);
-        return ["$offset  $action $key: $value"];
+        $new_value = toString($value);
+        return ["$offset  $action $key: $new_value"];
     }
 }
 
