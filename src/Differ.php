@@ -53,18 +53,20 @@ function iter(array $arr1, array $arr2): array
                 $value = getValue($value1, $value2);
                 $new_acc = getDiffIter($value, $key, 'nested');
             } elseif (!array_key_exists($key, $arr2)) {
-                $value = getValue($value1, $value1);
+                $value = is_array($value1) ? $value1 : getValue($value1, $value1);
                 $new_acc = getDiffIter($value, $key, 'rmv');
             } elseif (!array_key_exists($key, $arr1)) {
-                $value = getValue($value2, $value2);
+                $value = is_array($value2) ? $value2 : getValue($value2, $value2);
                 $new_acc = getDiffIter($value, $key, 'add');
             } elseif ($value1 === $value2) {
                 $value = getValue($value2, $value2);
                 $new_acc = getDiffIter($value, $key, 'upd=');
             } else {
+                $value_add = is_array($value1) ? $value1 : getValue($value1, $value1);
+                $value_rmv = is_array($value2) ? $value2 : getValue($value2, $value2);
                 $new_acc = array_merge(
-                    getDiffIter(getValue($value1, $value1), $key, 'upd-'),
-                    getDiffIter(getValue($value2, $value2), $key, 'upd+')
+                    getDiffIter($value_add, $key, 'upd-'),
+                    getDiffIter($value_rmv, $key, 'upd+')
                 );
             }
 
