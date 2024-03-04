@@ -33,7 +33,7 @@ function formatDiff(array $arr, int $depth): array
     $key = $arr['key'];
     $value = $arr['value'] ?? null;
 
-    if (isset($arr['children']) || is_array($value)) {
+    if ($arr['action'] === 'nested' || is_array($value)) {
         $new_depth = $depth + 1;
         $new_str_start = "$offset  $action $key: {";
         $new_str_mid = is_array($value)

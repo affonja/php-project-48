@@ -53,17 +53,16 @@ function iter(array $arr1, array $arr2): array
                 $value = getValue($value1, $value2);
                 $new_acc = getDiffIter($value, $key, 'nested');
             } elseif (!array_key_exists($key, $arr2)) {
-                $value = is_array($value1) ? $value1 : getValue($value1, $value1);
+                $value = $value1;
                 $new_acc = getDiffIter($value, $key, 'rmv');
             } elseif (!array_key_exists($key, $arr1)) {
-                $value = is_array($value2) ? $value2 : getValue($value2, $value2);
+                $value = $value2;
                 $new_acc = getDiffIter($value, $key, 'add');
             } elseif ($value1 === $value2) {
-                $value = getValue($value2, $value2);
-                $new_acc = getDiffIter($value, $key, 'upd=');
+                $new_acc = getDiffIter($value2, $key, 'upd=');
             } else {
-                $value_add = is_array($value1) ? $value1 : getValue($value1, $value1);
-                $value_rmv = is_array($value2) ? $value2 : getValue($value2, $value2);
+                $value_add = $value1;
+                $value_rmv = $value2;
                 $new_acc = array_merge(
                     getDiffIter($value_add, $key, 'upd-'),
                     getDiffIter($value_rmv, $key, 'upd+')
@@ -83,20 +82,11 @@ function getValue(mixed $value1, mixed $value2): mixed
 
 function getDiffIter(mixed $value, string $key, string $action): array
 {
-    if ($action === 'nested') {
-        return [
-            [
-                'action' => $action,
-                'key' => $key,
-                'children' => $value
-            ]
-        ];
-    }
     return [
         [
             'action' => $action,
             'key' => $key,
-            'value' => $value
+            $action === 'nested' ? 'children' : 'value' => $value
         ]
     ];
 }
